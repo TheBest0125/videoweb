@@ -9,10 +9,10 @@ const SignInConfig = {
           display: false,
         },
         toolbar: {
-          display: false,
+          display: true,
         },
         footer: {
-          display: false,
+          display: true,
         },
         leftSidePanel: {
           display: false,

@@ -28,6 +28,7 @@ const Root = styled('div')(({ theme, config }) => ({
       margin: '0 auto',
     },
   }),
+  // backgroundImage: "url('/assets/images/backgrounds/1.jpg')"
 }));
 
 function Layout1(props) {
@@ -36,7 +37,7 @@ function Layout1(props) {
   const { routes } = appContext;
 
   return (
-    <Root id="fuse-layout" config={config} className="w-full flex">
+    <Root id="fuse-layout" config={config} className="bg-cover w-full flex">
       {config.leftSidePanel.display && <LeftSideLayout1 />}
 
       <div className="flex flex-auto min-w-0">

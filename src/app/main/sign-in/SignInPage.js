@@ -65,20 +65,13 @@ function SignInPage() {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-1 min-w-0">
-      <Paper className="h-full sm:h-auto md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
-        <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
-          <img className="w-48" src="assets/images/logo/logo.svg" alt="logo" />
+    <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-center flex-1 min-w-0">
+      <Paper className="h-full bg-[hsla(0,0%,100%,0.9)] sm:h-auto md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full md:w-2/3 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
+        <div className="w-full max-w-480 sm:w-320 md:w-480 mx-auto sm:mx-0">
 
-          <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
+          <Typography className="flex justify-center mt-32 text-4xl font-extrabold tracking-tight leading-tight">
             Sign in
           </Typography>
-          <div className="flex items-baseline mt-2 font-medium">
-            <Typography>Don't have an account?</Typography>
-            <Link className="ml-4" to="/sign-up">
-              Sign up
-            </Link>
-          </div>
 
           <form
             name="loginForm"
@@ -156,7 +149,7 @@ function SignInPage() {
 
             <div className="flex items-center mt-32">
               <div className="flex-auto mt-px border-t" />
-              <Typography className="mx-8" color="text.secondary">
+              <Typography className="mx-8 text-bold">
                 Or continue with
               </Typography>
               <div className="flex-auto mt-px border-t" />
@@ -179,11 +172,21 @@ function SignInPage() {
                 </FuseSvgIcon>
               </Button>
             </div>
+            <div className="flex items-center mt-32">
+              <div className="flex-auto mt-px border-t" />
+              <Typography className="mx-8 text-bold">
+                Don't have an account?
+              </Typography>
+              <Link className="ml-4" to="/sign-up">
+                Sign up
+              </Link>
+              <div className="flex-auto mt-px border-t" />
+            </div>
           </form>
         </div>
       </Paper>
 
-      <Box
+      {/* <Box
         className="relative hidden md:flex flex-auto items-center justify-center h-full p-64 lg:px-112 overflow-hidden"
         sx={{ backgroundColor: 'primary.main' }}
       >
@@ -259,7 +262,7 @@ function SignInPage() {
             </div>
           </div>
         </div>
-      </Box>
+      </Box> */}
     </div>
   );
 }
