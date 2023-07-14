@@ -61,10 +61,10 @@ function ToolbarLayout1(props) {
               </>
             )}
             <Logo />
-
-          </div>
-          <div className="flex flex-1">
+            <div className = "ml-32">
             <NavVideoCategory />
+            </div>
+
           </div>
           <div className="flex flex-1">
             <Hidden smDown>
