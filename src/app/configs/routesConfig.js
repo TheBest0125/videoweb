@@ -9,11 +9,13 @@ import Error404Page from '../main/404/Error404Page';
 import ExampleConfig from '../main/example/ExampleConfig';
 import AnalyticsDashboardAppConfig from '../main/dashboards/admin/AnalyticsDashboardAppConfig';
 import DatatestConfig from '../main/datatest/DatatestConfig';
+import HomeConfig from '../main/HomeConfig';
 
 const routeConfigs = [
   AnalyticsDashboardAppConfig,
   ExampleConfig,
   DatatestConfig,
+  HomeConfig,
   SignOutConfig,
   SignInConfig,
   SignUpConfig,

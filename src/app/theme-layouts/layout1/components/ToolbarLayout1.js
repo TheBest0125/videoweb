@@ -60,7 +60,7 @@ function ToolbarLayout1(props) {
                 </Hidden>
               </>
             )}
-          <Logo />
+            <Logo />
 
           </div>
           <div className="flex flex-1">
