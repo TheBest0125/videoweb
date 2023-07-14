@@ -36,12 +36,6 @@ function ToolbarLayout3(props) {
             </Hidden>
           )}
 
-          <Hidden lgDown>
-            <div className={clsx('flex shrink-0 items-center')}>
-              <Logo />
-            </div>
-          </Hidden>
-
           <div className="flex flex-1">
             <Hidden smDown>
               <NavigationSearch className="mx-16 lg:mx-24" variant="basic" />
@@ -62,10 +56,6 @@ function ToolbarLayout3(props) {
             <AdjustFontSize />
 
             <FullScreenToggle />
-
-            <QuickPanelToggleButton />
-
-            <NotificationPanelToggleButton />
 
             <UserMenu />
           </div>

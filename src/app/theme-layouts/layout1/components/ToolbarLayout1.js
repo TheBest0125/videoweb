@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Hidden from '@mui/material/Hidden';
+
 import Toolbar from '@mui/material/Toolbar';
 import clsx from 'clsx';
 import { memo } from 'react';
@@ -17,6 +18,7 @@ import NavbarToggleButton from '../../shared-components/NavbarToggleButton';
 import UserMenu from '../../shared-components/UserMenu';
 import QuickPanelToggleButton from '../../shared-components/quickPanel/QuickPanelToggleButton';
 import ChatPanelToggleButton from '../../shared-components/chatPanel/ChatPanelToggleButton';
+import NavVideoCategory from 'app/theme-layouts/shared-components/NavVideoCategory';
 
 function ToolbarLayout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
@@ -44,8 +46,8 @@ function ToolbarLayout1(props) {
                 <Hidden lgDown>
                   {(config.navbar.style === 'style-3' ||
                     config.navbar.style === 'style-3-dense') && (
-                    <NavbarToggleButton className="w-40 h-40 p-0 mx-0" />
-                  )}
+                      <NavbarToggleButton className="w-40 h-40 p-0 mx-0" />
+                    )}
 
                   {config.navbar.style === 'style-1' && !navbar.open && (
                     <NavbarToggleButton className="w-40 h-40 p-0 mx-0" />
@@ -58,27 +60,29 @@ function ToolbarLayout1(props) {
               </>
             )}
 
-            <Hidden lgDown>
-              <NavigationShortcuts />
+          </div>
+          <div className="flex flex-1">
+            <NavVideoCategory />
+          </div>
+          <div className="flex flex-1">
+            <Hidden smDown>
+              <NavigationSearch className="mx-16 lg:mx-24" variant="basic" />
             </Hidden>
           </div>
-
           <div className="flex items-center px-8 h-full overflow-x-auto">
+            <Hidden smUp>
+              <NavigationSearch />
+            </Hidden>
+
             <LanguageSwitcher />
 
             <AdjustFontSize />
 
             <FullScreenToggle />
 
-            <NavigationSearch />
-
             <Hidden lgUp>
               <ChatPanelToggleButton />
             </Hidden>
-
-            <QuickPanelToggleButton />
-
-            <NotificationPanelToggleButton />
 
             <UserMenu />
           </div>

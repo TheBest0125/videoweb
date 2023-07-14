@@ -37,27 +37,23 @@ function ToolbarLayout2(props) {
           )}
 
           <div className="flex flex-1">
-            <Hidden lgDown>
-              <NavigationShortcuts />
+            <Hidden smDown>
+              <NavigationSearch className="mx-16 lg:mx-24" variant="basic" />
             </Hidden>
           </div>
-
           <div className="flex items-center px-8 h-full overflow-x-auto">
+            <Hidden smUp>
+              <NavigationSearch />
+            </Hidden>
             <LanguageSwitcher />
 
             <AdjustFontSize />
 
             <FullScreenToggle />
 
-            <NavigationSearch />
-
             <Hidden lgUp>
               <ChatPanelToggleButton />
             </Hidden>
-
-            <QuickPanelToggleButton />
-
-            <NotificationPanelToggleButton />
 
             <UserMenu />
           </div>
