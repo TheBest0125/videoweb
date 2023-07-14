@@ -16,6 +16,8 @@ import NavbarToggleButton from '../../shared-components/NavbarToggleButton';
 import UserMenu from '../../shared-components/UserMenu';
 import QuickPanelToggleButton from '../../shared-components/quickPanel/QuickPanelToggleButton';
 import ChatPanelToggleButton from '../../shared-components/chatPanel/ChatPanelToggleButton';
+import NavVideoCategory from 'app/theme-layouts/shared-components/NavVideoCategory';
+import Logo from 'app/theme-layouts/shared-components/Logo';
 
 function ToolbarLayout2(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
@@ -35,7 +37,10 @@ function ToolbarLayout2(props) {
               <NavbarToggleButton className="w-40 h-40 p-0 mx-0 sm:mx-8" />
             </Hidden>
           )}
-
+          <Logo />
+          <div className="ml-32">
+            <NavVideoCategory />
+          </div>
           <div className="flex flex-1">
             <Hidden smDown>
               <NavigationSearch className="mx-16 lg:mx-24" variant="basic" />
