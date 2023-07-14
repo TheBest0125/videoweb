@@ -19,6 +19,7 @@ import UserMenu from '../../shared-components/UserMenu';
 import QuickPanelToggleButton from '../../shared-components/quickPanel/QuickPanelToggleButton';
 import ChatPanelToggleButton from '../../shared-components/chatPanel/ChatPanelToggleButton';
 import NavVideoCategory from 'app/theme-layouts/shared-components/NavVideoCategory';
+import Logo from 'app/theme-layouts/shared-components/Logo';
 
 function ToolbarLayout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
@@ -59,6 +60,7 @@ function ToolbarLayout1(props) {
                 </Hidden>
               </>
             )}
+          <Logo />
 
           </div>
           <div className="flex flex-1">
