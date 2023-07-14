@@ -1,5 +1,5 @@
-import authRoles from '../auth/authRoles';
-import Home from './Home';
+import authRoles from "../auth/authRoles";
+import Home from "./Home";
 
 const HomeConfig = {
   settings: {
@@ -26,7 +26,7 @@ const HomeConfig = {
   auth: authRoles.onlyGuest,
   routes: [
     {
-      path: 'home',
+      path: "home",
       element: <Home />,
     },
   ],

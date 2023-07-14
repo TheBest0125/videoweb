@@ -1,43 +1,44 @@
-import FuseUtils from '@fuse/utils';
-import FuseLoading from '@fuse/core/FuseLoading';
-import { Navigate } from 'react-router-dom';
-import settingsConfig from 'app/configs/settingsConfig';
-import SignInConfig from '../main/sign-in/SignInConfig';
-import SignUpConfig from '../main/sign-up/SignUpConfig';
-import SignOutConfig from '../main/sign-out/SignOutConfig';
-import Error404Page from '../main/404/Error404Page';
-import ExampleConfig from '../main/example/ExampleConfig';
-import AnalyticsDashboardAppConfig from '../main/dashboards/admin/AnalyticsDashboardAppConfig';
-import DatatestConfig from '../main/datatest/DatatestConfig';
-import HomeConfig from '../main/HomeConfig';
+import FuseUtils from "@fuse/utils";
+import FuseLoading from "@fuse/core/FuseLoading";
+import { Navigate } from "react-router-dom";
+import settingsConfig from "app/configs/settingsConfig";
+import SignInConfig from "../main/sign-in/SignInConfig";
+import SignUpConfig from "../main/sign-up/SignUpConfig";
+import SignOutConfig from "../main/sign-out/SignOutConfig";
+import Error404Page from "../main/404/Error404Page";
+import DashboardConfig from "../main/dashboards/DashboardConfig";
+import HomeConfig from "../main/HomeConfig";
+import ProductsConfig from "../main/products/ProductsConfig";
 
 const routeConfigs = [
-  AnalyticsDashboardAppConfig,
-  ExampleConfig,
-  DatatestConfig,
   HomeConfig,
   SignOutConfig,
   SignInConfig,
   SignUpConfig,
+  ProductsConfig,
+  DashboardConfig,
 ];
 
 const routes = [
-  ...FuseUtils.generateRoutesFromConfigs(routeConfigs, settingsConfig.defaultAuth),
+  ...FuseUtils.generateRoutesFromConfigs(
+    routeConfigs,
+    settingsConfig.defaultAuth
+  ),
   {
-    path: '/',
-    element: <Navigate to="/datatest" />,
+    path: "/",
+    element: <Navigate to="/dashboard" />,
     auth: settingsConfig.defaultAuth,
   },
   {
-    path: 'loading',
+    path: "loading",
     element: <FuseLoading />,
   },
   {
-    path: '404',
+    path: "404",
     element: <Error404Page />,
   },
   {
-    path: '*',
+    path: "*",
     element: <Navigate to="404" />,
   },
 ];
