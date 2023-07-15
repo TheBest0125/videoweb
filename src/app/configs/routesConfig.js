@@ -5,10 +5,12 @@ import settingsConfig from "app/configs/settingsConfig";
 import SignInConfig from "../main/sign-in/SignInConfig";
 import SignUpConfig from "../main/sign-up/SignUpConfig";
 import SignOutConfig from "../main/sign-out/SignOutConfig";
-import Error404Page from "../main/404/Error404Page";
-import DashboardConfig from "../main/dashboards/DashboardConfig";
+import Error404PageConfig from "../main/404/Error404PageConfig";
 import HomeConfig from "../main/HomeConfig";
 import ProductsConfig from "../main/products/ProductsConfig";
+import AdminConfig from "../main/dashboards/admin/AdminConfig";
+import UserConfig from "../main/dashboards/user/UserConfig";
+import { authRoles } from "../auth";
 
 const routeConfigs = [
   HomeConfig,
@@ -16,7 +18,9 @@ const routeConfigs = [
   SignInConfig,
   SignUpConfig,
   ProductsConfig,
-  DashboardConfig,
+  AdminConfig,
+  UserConfig,
+  Error404PageConfig,
 ];
 
 const routes = [
@@ -33,14 +37,10 @@ const routes = [
     path: "loading",
     element: <FuseLoading />,
   },
-  {
-    path: "404",
-    element: <Error404Page />,
-  },
-  {
-    path: "*",
-    element: <Navigate to="404" />,
-  },
+  // {
+  //   path: "*",
+  //   element: <Navigate to="404" />,
+  // },
 ];
 
 export default routes;
