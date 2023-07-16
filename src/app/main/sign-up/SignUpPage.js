@@ -1,56 +1,63 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, useForm } from 'react-hook-form';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
-import * as yup from 'yup';
-import _ from '@lodash';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import FormHelperText from '@mui/material/FormHelperText';
-import jwtService from '../../auth/services/jwtService';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { Link } from "react-router-dom";
+import * as yup from "yup";
+import _ from "@lodash";
+import AvatarGroup from "@mui/material/AvatarGroup";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import FormHelperText from "@mui/material/FormHelperText";
+import jwtService from "../../auth/services/jwtService";
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  displayName: yup.string().required('You must enter display name'),
-  email: yup.string().email('You must enter a valid email').required('You must enter a email'),
+  name: yup.string().required("You must enter username"),
+  email: yup
+    .string()
+    .email("You must enter a valid email")
+    .required("You must enter a email"),
   password: yup
     .string()
-    .required('Please enter your password.')
-    .min(8, 'Password is too short - should be 8 chars minimum.'),
-  passwordConfirm: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
-  acceptTermsConditions: yup.boolean().oneOf([true], 'The terms and conditions must be accepted.'),
+    .required("Please enter your password.")
+    .min(8, "Password is too short - should be 8 chars minimum."),
+  passwordConfirm: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+  acceptTermsConditions: yup
+    .boolean()
+    .oneOf([true], "The terms and conditions must be accepted."),
 });
 
 const defaultValues = {
-  displayName: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
+  name: "",
+  email: "",
+  password: "",
+  passwordConfirm: "",
   acceptTermsConditions: false,
 };
 
 function SignUpPage() {
-  const { control, formState, handleSubmit, reset } = useForm({
-    mode: 'onChange',
+  const { control, formState, setError, handleSubmit, reset } = useForm({
+    mode: "onChange",
     defaultValues,
     resolver: yupResolver(schema),
   });
 
-  const { isValid, dirtyFields, errors, setError } = formState;
+  const { isValid, dirtyFields, errors } = formState;
 
-  function onSubmit({ displayName, password, email }) {
+  function onSubmit({ name, password, email }) {
     jwtService
       .createUser({
-        displayName,
+        name,
         password,
         email,
       })
@@ -58,9 +65,10 @@ function SignUpPage() {
         // No need to do anything, registered user data will be set at app/auth/AuthContext
       })
       .catch((_errors) => {
+        console.log(_errors);
         _errors.forEach((error) => {
           setError(error.type, {
-            type: 'manual',
+            type: "manual",
             message: error.message,
           });
         });
@@ -71,7 +79,6 @@ function SignUpPage() {
     <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-center flex-1 min-w-0">
       <Paper className="h-full bg-[hsla(0,0%,100%,0.9)] sm:h-auto md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full md:w-2/3 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
         <div className="w-full max-w-480 sm:w-320 md:w-480 mx-auto sm:mx-0">
-
           <Typography className="flex justify-center mt-32 text-4xl font-extrabold tracking-tight leading-tight">
             Sign up
           </Typography>
@@ -83,17 +90,17 @@ function SignUpPage() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Controller
-              name="displayName"
+              name="name"
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Display name"
+                  label="Username"
                   autoFocus
                   type="name"
-                  error={!!errors.displayName}
-                  helperText={errors?.displayName?.message}
+                  error={!!errors.name}
+                  helperText={errors?.name?.message}
                   variant="outlined"
                   required
                   fullWidth
@@ -159,18 +166,24 @@ function SignUpPage() {
               name="acceptTermsConditions"
               control={control}
               render={({ field }) => (
-                <FormControl className="items-center" error={!!errors.acceptTermsConditions}>
+                <FormControl
+                  className="items-center"
+                  error={!!errors.acceptTermsConditions}
+                >
                   <FormControlLabel
                     label="I agree to the Terms of Service and Privacy Policy"
                     control={<Checkbox size="small" {...field} />}
                   />
-                  <FormHelperText>{errors?.acceptTermsConditions?.message}</FormHelperText>
+                  <FormHelperText>
+                    {errors?.acceptTermsConditions?.message}
+                  </FormHelperText>
                 </FormControl>
               )}
             />
 
             <Button
               variant="contained"
+              color="secondary"
               className="w-full mt-24"
               aria-label="Register"
               disabled={_.isEmpty(dirtyFields) || !isValid}
@@ -182,7 +195,6 @@ function SignUpPage() {
           </form>
         </div>
       </Paper>
-
     </div>
   );
 }

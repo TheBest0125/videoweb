@@ -1,4 +1,4 @@
-import "@mock-api";
+// import "@mock-api";
 import BrowserRouter from "@fuse/core/BrowserRouter";
 import FuseLayout from "@fuse/core/FuseLayout";
 import FuseTheme from "@fuse/core/FuseTheme";
@@ -20,9 +20,10 @@ import { AuthProvider } from "./auth/AuthContext";
 /**
  * Axios HTTP Request defaults
  */
-// axios.defaults.baseURL = "http://localhost:4000";
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-// axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+axios.defaults.headers.common["Content-Type"] =
+  "application/x-www-form-urlencoded";
 
 const emotionCacheOptions = {
   rtl: {
