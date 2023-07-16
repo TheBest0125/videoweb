@@ -65,7 +65,6 @@ function SignUpPage() {
         // No need to do anything, registered user data will be set at app/auth/AuthContext
       })
       .catch((_errors) => {
-        console.log(_errors);
         _errors.forEach((error) => {
           setError(error.type, {
             type: "manual",

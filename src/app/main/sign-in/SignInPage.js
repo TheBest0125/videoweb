@@ -47,7 +47,7 @@ function SignInPage() {
   const { isValid, dirtyFields, errors } = formState;
 
   useEffect(() => {
-    setValue("email", "james.snader@hotmail.com", {
+    setValue("email", "james@hotmail.com", {
       shouldDirty: true,
       shouldValidate: true,
     });
