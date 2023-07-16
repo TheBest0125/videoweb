@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import {
   Box,
@@ -14,23 +14,88 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { data, states } from "./makeData";
+import axios from "axios";
 
 const Example = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState(() => data);
   const [validationErrors, setValidationErrors] = useState({});
+  //data and fetching state
+  const [data, setData] = useState([]);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRefetching, setIsRefetching] = useState(false);
+  const [rowCount, setRowCount] = useState(0);
 
-  const handleCreateNewRow = (values) => {
-    tableData.push(values);
-    setTableData([...tableData]);
+  //table state
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState("");
+  const [sorting, setSorting] = useState([]);
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  const fetchData = async () => {
+    if (!data.length) {
+      setIsLoading(true);
+    } else {
+      setIsRefetching(true);
+    }
+    console.log(pagination);
+    try {
+      const response = await axios.post("api/categories", {
+        start: pagination.pageIndex * pagination.pageSize,
+        size: pagination.pageSize,
+        sorting,
+        globalFilter,
+        filters: columnFilters,
+      });
+      console.log(response.data);
+      setData(response.data.data);
+      setRowCount(response.data.total);
+    } catch (error) {
+      setIsError(true);
+      console.error(error);
+      return;
+    }
+    setIsError(false);
+    setIsLoading(false);
+    setIsRefetching(false);
+  };
+
+  useEffect(() => {
+    console.log(
+      "fetch---------",
+      columnFilters,
+      globalFilter,
+      pagination,
+      sorting
+    );
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    columnFilters,
+    globalFilter,
+    pagination.pageIndex,
+    pagination.pageSize,
+    sorting,
+  ]);
+
+  const handleCreateNewRow = async (values) => {
+    console.log(values);
+    await axios.post("api/categories/add", {
+      ...values,
+    });
+    fetchData();
   };
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
     if (!Object.keys(validationErrors).length) {
-      tableData[row.index] = values;
+      await axios.post("api/categories/update", {
+        ...values,
+      });
       //send/receive api updates here, then refetch or update local table data for re-render
-      setTableData([...tableData]);
+      fetchData();
       exitEditingMode(); //required to exit editing mode and close modal
     }
   };
@@ -40,17 +105,17 @@ const Example = () => {
   };
 
   const handleDeleteRow = useCallback(
-    (row) => {
-      if (
-        !confirm(`Are you sure you want to delete ${row.getValue("category")}`)
-      ) {
+    async (row) => {
+      if (!confirm(`Are you sure you want to delete ${row.getValue("name")}`)) {
         return;
       }
       //send api delete request here, then refetch or update local table data for re-render
-      tableData.splice(row.index, 1);
-      setTableData([...tableData]);
+      const response = await axios.post("api/categories/delete", {
+        id: row.getValue("id"),
+      });
+      fetchData();
     },
-    [tableData]
+    [data]
   );
 
   const getCommonEditTextFieldProps = useCallback(
@@ -90,8 +155,8 @@ const Example = () => {
         size: 80,
       },
       {
-        accessorKey: "category",
-        header: "Category",
+        accessorKey: "name",
+        header: "Name",
         enableColumnActions: false,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -104,7 +169,7 @@ const Example = () => {
 
   return (
     <div className="container">
-      <div className="mt-[30px] w-[500px]">
+      <div className="mt-[30px] w-[80%]">
         <MaterialReactTable
           displayColumnDefOptions={{
             "mrt-row-actions": {
@@ -114,11 +179,31 @@ const Example = () => {
               size: 120,
             },
           }}
+          state={{
+            columnFilters,
+            globalFilter,
+            isLoading,
+            pagination,
+            showAlertBanner: isError,
+            showProgressBars: isRefetching,
+            sorting,
+            showColumnFilters: true,
+          }}
+          manualFiltering
+          manualPagination
+          manualSorting
+          onColumnFiltersChange={setColumnFilters}
+          onGlobalFilterChange={setGlobalFilter}
+          onPaginationChange={setPagination}
+          onSortingChange={setSorting}
+          rowCount={rowCount}
           columns={columns}
+          rowNumberMode="static"
           enableRowNumbers
-          data={tableData}
+          data={data}
           editingMode="modal" //default
           enableColumnOrdering
+          enableGlobalFilter={false}
           enableFullScreenToggle={false}
           initialState={{ columnVisibility: { id: false } }}
           enableEditing
@@ -190,7 +275,7 @@ export const CreateNewCategory = ({ open, columns, onClose, onSubmit }) => {
             }}
           >
             {columns.map((column) => {
-              if (column.accessorKey === "category")
+              if (column.accessorKey === "name")
                 return (
                   <TextField
                     key={column.accessorKey}

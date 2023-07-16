@@ -115,48 +115,55 @@ const Users = () => {
   ]);
 
   return (
-    <>
-      <MaterialReactTable
-        displayColumnDefOptions={{
-          "mrt-row-actions": {
-            muiTableHeadCellProps: {
-              align: "center",
+    <div className="container">
+      <div className="mt-[30px] w-[80%]">
+        <MaterialReactTable
+          displayColumnDefOptions={{
+            "mrt-row-actions": {
+              muiTableHeadCellProps: {
+                align: "center",
+              },
+              size: 120,
             },
-            size: 120,
-          },
-        }}
-        state={{
-          columnFilters,
-          globalFilter,
-          isLoading,
-          pagination,
-          showAlertBanner: isError,
-          showProgressBars: isRefetching,
-          sorting,
-        }}
-        initialState={{ density: "compact", columnVisibility: { id: false } }}
-        enableFullScreenToggle={false}
-        columns={columns}
-        data={data}
-        enableColumnOrdering
-        enableEditing
-        enableRowNumbers
-        onColumnFiltersChange={setColumnFilters}
-        onGlobalFilterChange={setGlobalFilter}
-        onPaginationChange={setPagination}
-        onSortingChange={setSorting}
-        rowCount={rowCount}
-        renderRowActions={({ row, table }) => (
-          <div className="flex justify-center">
-            <Tooltip arrow placement="right" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
-          </div>
-        )}
-      />
-    </>
+          }}
+          state={{
+            columnFilters,
+            globalFilter,
+            isLoading,
+            pagination,
+            showAlertBanner: isError,
+            showProgressBars: isRefetching,
+            sorting,
+            showColumnFilters: true,
+          }}
+          initialState={{ density: "compact", columnVisibility: { id: false } }}
+          enableFullScreenToggle={false}
+          columns={columns}
+          data={data}
+          enableGlobalFilter={false}
+          enableColumnOrdering
+          enableEditing
+          enableRowNumbers
+          manualFiltering
+          manualPagination
+          manualSorting
+          onColumnFiltersChange={setColumnFilters}
+          onGlobalFilterChange={setGlobalFilter}
+          onPaginationChange={setPagination}
+          onSortingChange={setSorting}
+          rowCount={rowCount}
+          renderRowActions={({ row, table }) => (
+            <div className="flex justify-center">
+              <Tooltip arrow placement="right" title="Delete">
+                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            </div>
+          )}
+        />
+      </div>
+    </div>
   );
 };
 
