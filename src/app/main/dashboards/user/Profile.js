@@ -106,6 +106,7 @@ export default function Profile() {
             Product Number:
           </Typography>
           <TextField
+            value={user.data.productNumber}
             label="Product Number"
             variant="outlined"
             disabled
@@ -118,7 +119,7 @@ export default function Profile() {
             Coinbase Account:
           </Typography>
           <TextField
-            value={user.data.coinbase_account}
+            value={user.data.coinbaseAccount}
             label="Coinbase Account"
             variant="outlined"
             disabled
@@ -130,7 +131,7 @@ export default function Profile() {
             Paypal Account:
           </Typography>
           <TextField
-            value={user.data.paypal_account}
+            value={user.data.paypalAccount}
             label="Paypal Account"
             variant="outlined"
             disabled

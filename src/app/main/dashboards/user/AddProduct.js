@@ -11,8 +11,10 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import { selectUser } from "app/store/userSlice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress } from "@mui/material";
+import { setUser } from "app/store/userSlice";
+import { showMessage } from "app/store/fuse/messageSlice";
 
 const schema = yup.object().shape({
   name: yup.string().required("You must enter a video name."),
@@ -58,6 +60,7 @@ export default function AddProduct() {
   const [categories, setCategories] = useState(null);
   const [isPeakVideo, setIsPeakVideo] = useState(false);
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   const { control, formState, register, setError, handleSubmit } = useForm({
     mode: "all",
@@ -86,12 +89,15 @@ export default function AddProduct() {
     const videoURL = response.data.filename;
 
     data.categoryId = isPeakVideo ? -1 : category;
-    await axios.post("api/products/add", {
+    response = await axios.post("api/products/add", {
       ...data,
       imageURL,
       videoURL,
       userId: user.data.id,
     });
+    dispatch(setUser(response.data.user));
+    dispatch(showMessage({ message: "Product is added successfully." }));
+
     setUploading(false);
   };
   const fetchCategories = async () => {
