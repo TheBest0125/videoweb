@@ -1,37 +1,105 @@
-import { TextField, Typography } from "@mui/material";
+import { TextField, Typography, Button } from "@mui/material";
 import React, { useState } from "react";
+import { selectUser } from "app/store/userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import SaveIcon from "@mui/icons-material/Save";
+import axios from "axios";
+import { showMessage } from "app/store/fuse/messageSlice";
+import { setUser } from "app/store/userSlice";
+
 export default function Profile() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(user.data.email);
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+
+    await axios.post("api/profile/changePassword", {
+      id: user.data.id,
+      password,
+    });
+    dispatch(showMessage({ message: "Password changed successfully." }));
+    setPassword("");
+  };
+  const handleChangeEmail = async (e) => {
+    e.preventDefault();
+    const response = await axios.post("api/profile/changeEmail", {
+      id: user.data.id,
+      email,
+    });
+    dispatch(setUser(response.data.user));
+    dispatch(showMessage({ message: "Email changed successfully." }));
+  };
   return (
     <div className="container">
       <h1 className="mt-32 flex justify-center">Profile</h1>
-      <form className="w-1/2">
+      <div className="w-1/2">
         <div className="mt-48 mb-16">
           <Typography className="mb-24 font-medium text-14">
             Username:
           </Typography>
-          <TextField label="Username" variant="outlined" disabled fullWidth />
-        </div>
-        <div className="mt-48 mb-16">
-          <Typography className="mb-24 font-medium text-14">
-            Password:
-          </Typography>
           <TextField
-            label="Password"
-            type="password"
+            value={user.data.name}
+            label="Username"
             variant="outlined"
-            required
+            disabled
             fullWidth
           />
         </div>
         <div className="mt-48 mb-16">
-          <Typography className="mb-24 font-medium text-14">Email:</Typography>
-          <TextField
-            label="Email"
-            type="email"
-            variant="outlined"
-            required
-            fullWidth
-          />
+          <form onSubmit={handleChangePassword}>
+            <Typography className="mb-24 font-medium text-14">
+              Password:
+            </Typography>
+            <TextField
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label="Password"
+              type="password"
+              inputProps={{ minLength: 8 }}
+              variant="outlined"
+              required
+              fullWidth
+            />
+            <Button
+              className="mt-8"
+              color="secondary"
+              variant="outlined"
+              type="submit"
+              startIcon={<SaveIcon />}
+            >
+              Change
+            </Button>
+          </form>
+        </div>
+
+        <div className="mt-48 mb-16">
+          <form onSubmit={handleChangeEmail}>
+            <Typography className="mb-24 font-medium text-14">
+              Email:
+            </Typography>
+            <TextField
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              label="Email"
+              type="email"
+              variant="outlined"
+              required
+              fullWidth
+            />
+            <Button
+              className="mt-8"
+              color="secondary"
+              variant="outlined"
+              type="submit"
+              startIcon={<SaveIcon />}
+            >
+              Change
+            </Button>
+          </form>
         </div>
         <div className="mt-48 mb-16">
           <Typography className="mb-24 font-medium text-14">
@@ -50,6 +118,7 @@ export default function Profile() {
             Coinbase Account:
           </Typography>
           <TextField
+            value={user.data.coinbase_account}
             label="Coinbase Account"
             variant="outlined"
             disabled
@@ -61,13 +130,14 @@ export default function Profile() {
             Paypal Account:
           </Typography>
           <TextField
+            value={user.data.paypal_account}
             label="Paypal Account"
             variant="outlined"
             disabled
             fullWidth
           />
         </div>
-      </form>
+      </div>
     </div>
   );
 }

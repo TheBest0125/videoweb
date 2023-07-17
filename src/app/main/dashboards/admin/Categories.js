@@ -41,7 +41,6 @@ const Example = () => {
     } else {
       setIsRefetching(true);
     }
-    console.log(pagination);
     try {
       const response = await axios.post("api/categories", {
         start: pagination.pageIndex * pagination.pageSize,
@@ -50,7 +49,6 @@ const Example = () => {
         globalFilter,
         filters: columnFilters,
       });
-      console.log(response.data);
       setData(response.data.data);
       setRowCount(response.data.total);
     } catch (error) {
@@ -64,15 +62,7 @@ const Example = () => {
   };
 
   useEffect(() => {
-    console.log(
-      "fetch---------",
-      columnFilters,
-      globalFilter,
-      pagination,
-      sorting
-    );
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     columnFilters,
     globalFilter,
@@ -82,7 +72,6 @@ const Example = () => {
   ]);
 
   const handleCreateNewRow = async (values) => {
-    console.log(values);
     await axios.post("api/categories/add", {
       ...values,
     });

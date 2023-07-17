@@ -39,6 +39,7 @@ const emotionCacheOptions = {
 };
 
 const App = () => {
+  const middle_logo = "logo.svg";
   const user = useSelector(selectUser);
   const langDirection = useSelector(selectCurrentLanguageDirection);
   const mainTheme = useSelector(selectMainTheme);
