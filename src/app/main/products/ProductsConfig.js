@@ -13,6 +13,9 @@ const ProductsConfig = {
         toolbar: {
           display: true,
         },
+        banner: {
+          display: true,
+        },
         footer: {
           display: false,
         },

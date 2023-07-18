@@ -13,7 +13,6 @@ export const setUser = createAsyncThunk(
     /*
     You can redirect the logged-in user to a specific route depending on his role
     */
-    console.log(user);
     if (user.loginRedirectUrl) {
       settingsConfig.loginRedirectUrl = user.loginRedirectUrl; // for example 'apps/academy'
     }
@@ -28,7 +27,7 @@ export const updateUserSettings = createAsyncThunk(
     const { user } = getState();
     const newUser = _.merge({}, user, { data: { settings } });
 
-    dispatch(updateUserData(newUser));
+    // dispatch(updateUserData(newUser));
 
     return newUser;
   }
@@ -46,7 +45,7 @@ export const updateUserShortcuts = createAsyncThunk(
       },
     };
 
-    dispatch(updateUserData(newUser));
+    // dispatch(updateUserData(newUser));
 
     return newUser;
   }

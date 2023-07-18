@@ -35,7 +35,6 @@ const Users = () => {
         globalFilter,
         filters: columnFilters,
       });
-      console.log(response.data);
       setData(response.data.data);
       setRowCount(response.data.total);
     } catch (error) {
