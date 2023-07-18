@@ -20,7 +20,7 @@ import { AuthProvider } from "./auth/AuthContext";
 /**
  * Axios HTTP Request defaults
  */
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 axios.defaults.headers.common["Content-Type"] =
   "application/x-www-form-urlencoded";

@@ -96,18 +96,21 @@ const Users = () => {
       size: 140,
     },
     {
-      accessorKey: "product_number",
+      accessorKey: "productNumber",
       header: "Product Number",
+      muiTableBodyCellProps: {
+        align: "right",
+      },
       enableColumnActions: false,
     },
     {
-      accessorKey: "coinbase_account",
+      accessorKey: "coinbaseAccount",
       header: "Coinbase Account",
       enableColumnActions: false,
       size: 100,
     },
     {
-      accessorKey: "paypal_account",
+      accessorKey: "paypalAccount",
       header: "Paypal Account",
       enableColumnActions: false,
       size: 100,

@@ -28,15 +28,15 @@ const ProductsConfig = {
   auth: authRoles.onlyGuest,
   routes: [
     {
-      path: "/productsByCategory/:category",
+      path: "/productsByCategory/:categoryId",
       element: <ProductsByCategory />,
     },
     {
-      path: "/productsByUser/:user",
+      path: "/productsByUser/:userId",
       element: <ProductsByUser />,
     },
     {
-      path: "/products/:id",
+      path: "/products/:type/:id",
       element: <Product />,
     },
   ],

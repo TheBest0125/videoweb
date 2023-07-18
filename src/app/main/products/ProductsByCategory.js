@@ -1,42 +1,66 @@
 import Pagination from "app/shared-components/Pagination";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useDeepCompareEffect } from "@fuse/hooks";
 
-const mock = [1, 2, 3, 4, 55, 6, , 7, 43, 4, 4];
 export default function ProductsByCategory() {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [categoryName, setCategoryName] = useState("");
+  const [perPage, setPerPage] = useState(9);
+  const [totalPage, setTotalPage] = useState(0);
+
+  const routeParams = useParams();
+
+  const fetchProducts = async () => {
+    const { categoryId } = routeParams;
+    const res = await axios.post("api/productsByCategory", {
+      categoryId,
+      start: (page - 1) * perPage,
+      limit: perPage,
+    });
+    setData(res.data.data);
+    setTotalPage(res.data.total);
+    setCategoryName(res.data.categoryName);
+  };
+  useDeepCompareEffect(() => {
+    fetchProducts();
+  }, [routeParams]);
   const handleChangePage = (val) => {
     setPage(val);
   };
   return (
     <div className="container">
-      <h1 className="flex justify-center my-32 text-bold">Category</h1>
+      <h1 className="flex justify-center my-32 text-bold">{categoryName}</h1>
       <div className="mx-96 mb-32">
         <div className="grid lg:grid-cols-3 md:grid-cols-2">
-          {mock.map((item) => (
-            <div className="block m-32 rounded-lg bg-white text-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-              <div className="border-b-2 border-neutral-100 px-6 py-12 dark:border-neutral-600 dark:text-neutral-50">
-                Video Name
-              </div>
-              <Link to="/products/id" role="button">
-                <img
-                  className="rounded-lg py-3"
-                  src="/assets/images/backgrounds/1.jpg"
-                  alt=""
-                />
-              </Link>
-              <Link to="/productsByUser/:username" role="button">
-                <div className="border-t-2 border-neutral-100 px-6 py-12 dark:border-neutral-600 dark:text-neutral-50">
-                  User Name
+          {data.map((item) => (
+            <div key={item.id}>
+              <div className="block m-32 rounded-lg bg-white text-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+                <div className="border-b-2 border-neutral-100 px-6 py-12 dark:border-neutral-600 dark:text-neutral-50">
+                  {item.name}
                 </div>
-              </Link>
+                <Link to={`/products/0/${item.id}`} role="button">
+                  <img
+                    className="rounded-lg py-3"
+                    src={`${process.env.REACT_APP_SERVER_URL}/uploads/${item.imageURL}`}
+                    alt="image"
+                  />
+                </Link>
+                <Link to={`/productsByUser/${item.userId}`} role="button">
+                  <div className="border-t-2 border-neutral-100 px-6 py-12 dark:border-neutral-600 dark:text-neutral-50">
+                    {item.username}
+                  </div>
+                </Link>
+              </div>
             </div>
           ))}
         </div>
         <div className="flex justify-end">
           <Pagination
             page={page}
-            count={mock.length}
+            count={totalPage}
             handleChangePage={handleChangePage}
           />
         </div>

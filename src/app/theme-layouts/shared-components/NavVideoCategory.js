@@ -1,4 +1,3 @@
-import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import Stack from "@mui/material/Stack";
@@ -6,16 +5,26 @@ import FuseSvgIcon from "@fuse/core/FuseSvgIcon";
 import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { Link } from "react-router-dom";
+import { useEffect, useState, Fragment } from "react";
+import axios from "axios";
 
 export default function MenuPopupState() {
+  const [categories, setCategories] = useState([]);
+  const fetchCategories = async () => {
+    const response = await axios.post("api/categories/all");
+    setCategories(response.data);
+  };
+  useEffect(() => {
+    fetchCategories();
+  }, []);
   return (
     <Stack direction="row" spacing={2}>
-      <Button component={Link} to="/productsByCategory/peakvideo">
+      <Button component={Link} to="/productsByCategory/-1">
         Peak Video
       </Button>
       <PopupState variant="popover" popupId="demo-popup-menu">
         {(popupState) => (
-          <React.Fragment>
+          <Fragment>
             <Button variant="contained" {...bindTrigger(popupState)}>
               Category
               <FuseSvgIcon className="text-48" size={24} color="action">
@@ -23,11 +32,18 @@ export default function MenuPopupState() {
               </FuseSvgIcon>
             </Button>
             <Menu {...bindMenu(popupState)}>
-              <MenuItem onClick={popupState.close}>Profile</MenuItem>
-              <MenuItem onClick={popupState.close}>My account</MenuItem>
-              <MenuItem onClick={popupState.close}>Logout</MenuItem>
+              {categories.map((category) => (
+                <MenuItem
+                  key={category.id}
+                  to={`/productsByCategory/${category.id}`}
+                  onClick={popupState.close}
+                  component={Link}
+                >
+                  {category.name}
+                </MenuItem>
+              ))}
             </Menu>
-          </React.Fragment>
+          </Fragment>
         )}
       </PopupState>
     </Stack>
