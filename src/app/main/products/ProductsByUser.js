@@ -7,16 +7,16 @@ import axios from "axios";
 export default function ProductsByUser() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
-  const [username, setUsername] = useState("");
   const [perPage, setPerPage] = useState(9);
   const [totalPage, setTotalPage] = useState(0);
 
   const routeParams = useParams();
+  const { userId, username } = routeParams;
+
   const handleChangePage = (val) => {
     setPage(val);
   };
   const fetchProducts = async () => {
-    const { userId } = routeParams;
     const res = await axios.post("api/productsByUser", {
       userId,
       start: (page - 1) * perPage,
@@ -24,11 +24,10 @@ export default function ProductsByUser() {
     });
     setData(res.data.data);
     setTotalPage(res.data.total);
-    setUsername(res.data.username);
   };
   useDeepCompareEffect(() => {
     fetchProducts();
-  }, [routeParams]);
+  }, [routeParams, page, perPage]);
   return (
     <div className="container">
       <h1 className="flex justify-center my-32 text-bold">{username}</h1>
@@ -40,12 +39,17 @@ export default function ProductsByUser() {
                 <div className="border-b-2 border-neutral-100 px-6 py-12 dark:border-neutral-600 dark:text-neutral-50">
                   {item.name}
                 </div>
-                <Link to={`/products/1/${item.id}`}>
-                  <img
-                    className="rounded-lg py-3"
-                    src={`${process.env.REACT_APP_SERVER_URL}/uploads/${item.imageURL}`}
-                    alt=""
-                  />
+                <Link to={`/products/user/${item.name}/${item.id}`}>
+                  <div
+                    className="flex justify-center items-center"
+                    style={{ backgroundColor: "black" }}
+                  >
+                    <img
+                      className="rounded-lg py-3 h-[200px]"
+                      src={`${process.env.REACT_APP_SERVER_URL}/uploads/${item.imageURL}`}
+                      alt="image"
+                    />
+                  </div>
                 </Link>
               </div>
             </div>

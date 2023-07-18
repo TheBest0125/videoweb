@@ -8,7 +8,7 @@ export default function Product() {
   const [product, setProduct] = useState(null);
   const routeParams = useParams();
   const navigate = useNavigate();
-  const { type, id } = routeParams;
+  const { type, id, name } = routeParams;
 
   const getProduct = async () => {
     const res = await axios.post("api/products/get", { id });
@@ -19,7 +19,7 @@ export default function Product() {
       categoryId: product.categoryId,
       id,
     });
-    navigate(`/products/0/${res.data}`);
+    navigate(`/products/0/${name}/${res.data}`);
   };
   useDeepCompareEffect(() => {
     getProduct();
@@ -57,18 +57,13 @@ export default function Product() {
             </div>
             <div className="relative">
               <Button
-                component={Link}
-                to={
-                  type == 0
-                    ? `/productsByCategory/${product.categoryId}`
-                    : `/productsByUser/${product.userId}`
-                }
+                onClick={(e) => navigate(-1)}
                 className="absolute p-12 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white left-0 top-10"
                 role="button"
               >
                 Back to Last Page
               </Button>
-              {type == 0 && (
+              {type === "category" && (
                 <button
                   className="absolute p-12 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white right-0 top-10"
                   onClick={handleNextRandomVideo}

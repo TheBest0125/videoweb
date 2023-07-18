@@ -11,6 +11,7 @@ import ProductsConfig from "../main/products/ProductsConfig";
 import AdminConfig from "../main/dashboards/admin/AdminConfig";
 import UserConfig from "../main/dashboards/user/UserConfig";
 import { authRoles } from "../auth";
+import ProductConfig from "../main/products/ProductConfig";
 
 const routeConfigs = [
   HomeConfig,
@@ -18,6 +19,7 @@ const routeConfigs = [
   SignInConfig,
   SignUpConfig,
   ProductsConfig,
+  ProductConfig,
   AdminConfig,
   UserConfig,
   Error404PageConfig,

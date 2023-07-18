@@ -31,7 +31,9 @@ const schema = yup.object().shape({
     .test("fileType", "Unsupported File Format(jpeg, png, jpg).", (value) => {
       return (
         value.length &&
-        ["image/jpeg", "image/png", "image/jpg"].includes(value[0].type)
+        ["image/jpeg", "image/png", "image/jpg", "image/bmp"].includes(
+          value[0].type
+        )
       );
     }),
   video: yup

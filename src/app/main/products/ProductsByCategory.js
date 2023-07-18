@@ -7,14 +7,13 @@ import { useDeepCompareEffect } from "@fuse/hooks";
 export default function ProductsByCategory() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
-  const [categoryName, setCategoryName] = useState("");
   const [perPage, setPerPage] = useState(9);
   const [totalPage, setTotalPage] = useState(0);
 
   const routeParams = useParams();
+  const { categoryId, categoryName } = routeParams;
 
   const fetchProducts = async () => {
-    const { categoryId } = routeParams;
     const res = await axios.post("api/productsByCategory", {
       categoryId,
       start: (page - 1) * perPage,
@@ -22,11 +21,10 @@ export default function ProductsByCategory() {
     });
     setData(res.data.data);
     setTotalPage(res.data.total);
-    setCategoryName(res.data.categoryName);
   };
   useDeepCompareEffect(() => {
     fetchProducts();
-  }, [routeParams]);
+  }, [routeParams, page, perPage]);
   const handleChangePage = (val) => {
     setPage(val);
   };
@@ -41,14 +39,25 @@ export default function ProductsByCategory() {
                 <div className="border-b-2 border-neutral-100 px-6 py-12 dark:border-neutral-600 dark:text-neutral-50">
                   {item.name}
                 </div>
-                <Link to={`/products/0/${item.id}`} role="button">
-                  <img
-                    className="rounded-lg py-3"
-                    src={`${process.env.REACT_APP_SERVER_URL}/uploads/${item.imageURL}`}
-                    alt="image"
-                  />
+                <Link
+                  to={`/products/category/${item.name}/${item.id}`}
+                  role="button"
+                >
+                  <div
+                    className="flex justify-center items-center"
+                    style={{ backgroundColor: "black" }}
+                  >
+                    <img
+                      className="rounded-lg py-3 h-[200px]"
+                      src={`${process.env.REACT_APP_SERVER_URL}/uploads/${item.imageURL}`}
+                      alt="image"
+                    />
+                  </div>
                 </Link>
-                <Link to={`/productsByUser/${item.userId}`} role="button">
+                <Link
+                  to={`/productsByUser/${item.username}/${item.userId}`}
+                  role="button"
+                >
                   <div className="border-t-2 border-neutral-100 px-6 py-12 dark:border-neutral-600 dark:text-neutral-50">
                     {item.username}
                   </div>

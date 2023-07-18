@@ -1,7 +1,5 @@
-import authRoles from "../../auth/authRoles";
 import ProductsByCategory from "./ProductsByCategory";
 import ProductsByUser from "./ProductsByUser";
-import Product from "./Product";
 
 const ProductsConfig = {
   settings: {
@@ -31,16 +29,12 @@ const ProductsConfig = {
   auth: null,
   routes: [
     {
-      path: "/productsByCategory/:categoryId",
+      path: "/video_category/:categoryName/:categoryId",
       element: <ProductsByCategory />,
     },
     {
-      path: "/productsByUser/:userId",
+      path: "/productsByUser/:username/:userId",
       element: <ProductsByUser />,
-    },
-    {
-      path: "/products/:type/:id",
-      element: <Product />,
     },
   ],
 };

@@ -19,7 +19,7 @@ export default function MenuPopupState() {
   }, []);
   return (
     <Stack direction="row" spacing={2}>
-      <Button component={Link} to="/productsByCategory/-1">
+      <Button component={Link} to="/video_category/Peak Video/-1">
         Peak Video
       </Button>
       <PopupState variant="popover" popupId="demo-popup-menu">
@@ -38,7 +38,7 @@ export default function MenuPopupState() {
                 categories?.map((category) => (
                   <MenuItem
                     key={category.id}
-                    to={`/productsByCategory/${category.id}`}
+                    to={`/video_category/${category.name}/${category.id}`}
                     onClick={popupState.close}
                     component={Link}
                   >
