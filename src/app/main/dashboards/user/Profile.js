@@ -13,6 +13,10 @@ export default function Profile() {
 
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState(user.data.email);
+  const [coinbaseAccount, setCoinbaseAccount] = useState(
+    user.data.coinbaseAccount
+  );
+  const [paypalAccount, setPaypalAccount] = useState(user.data.paypalAccount);
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
@@ -33,11 +37,22 @@ export default function Profile() {
     dispatch(setUser(response.data.user));
     dispatch(showMessage({ message: "Email changed successfully." }));
   };
+  const handleChangePayment = async (e) => {
+    e.preventDefault();
+
+    const response = await axios.post("api/profile/changePayment", {
+      id: user.data.id,
+      coinbaseAccount,
+      paypalAccount,
+    });
+    dispatch(setUser(response.data.user));
+    dispatch(showMessage({ message: "Payment changed successfully." }));
+  };
   return (
     <div className="container">
       <h1 className="mt-32 flex justify-center">Profile</h1>
       <div className="w-1/2">
-        <div className="mt-48 mb-16">
+        <div className="mt-24 mb-16">
           <Typography className="mb-24 font-medium text-14">
             Username:
           </Typography>
@@ -49,7 +64,7 @@ export default function Profile() {
             fullWidth
           />
         </div>
-        <div className="mt-48 mb-16">
+        <div className="mt-24 mb-16">
           <form onSubmit={handleChangePassword}>
             <Typography className="mb-24 font-medium text-14">
               Password:
@@ -71,12 +86,12 @@ export default function Profile() {
               type="submit"
               startIcon={<SaveIcon />}
             >
-              Change
+              Change Password
             </Button>
           </form>
         </div>
 
-        <div className="mt-48 mb-16">
+        <div className="mt-24 mb-16">
           <form onSubmit={handleChangeEmail}>
             <Typography className="mb-24 font-medium text-14">
               Email:
@@ -97,11 +112,11 @@ export default function Profile() {
               type="submit"
               startIcon={<SaveIcon />}
             >
-              Change
+              Change Email
             </Button>
           </form>
         </div>
-        <div className="mt-48 mb-16">
+        <div className="mt-24 mb-16">
           <Typography className="mb-24 font-medium text-14">
             Product Number:
           </Typography>
@@ -113,31 +128,40 @@ export default function Profile() {
             fullWidth
           />
         </div>
-        <Typography className="mt-24 font-medium text-18">Payment</Typography>
-        <div className="mt-12 mb-16">
-          <Typography className="mb-24 font-medium text-14">
-            Coinbase Account:
-          </Typography>
-          <TextField
-            value={user.data.coinbaseAccount}
-            label="Coinbase Account"
-            variant="outlined"
-            disabled
-            fullWidth
-          />
-        </div>
-        <div className="mt-48 mb-16">
-          <Typography className="mb-24 font-medium text-14">
-            Paypal Account:
-          </Typography>
-          <TextField
-            value={user.data.paypalAccount}
-            label="Paypal Account"
-            variant="outlined"
-            disabled
-            fullWidth
-          />
-        </div>
+        <Typography className="mt-24 font-medium text-20">Payment</Typography>
+        <form onSubmit={handleChangePayment}>
+          <div className="mt-12 mb-16">
+            <Typography className="my-12 font-medium text-14">
+              Coinbase Account:
+            </Typography>
+            <TextField
+              onChange={(e) => setCoinbaseAccount(e.target.value)}
+              value={coinbaseAccount}
+              label="Coinbase Account"
+              variant="outlined"
+              fullWidth
+            />
+            <Typography className="my-12 font-medium text-14">
+              Paypal Account:
+            </Typography>
+            <TextField
+              onChange={(e) => setPaypalAccount(e.target.value)}
+              value={paypalAccount}
+              label="Paypal Account"
+              variant="outlined"
+              fullWidth
+            />
+            <Button
+              className="mt-12"
+              color="secondary"
+              variant="outlined"
+              type="submit"
+              startIcon={<SaveIcon />}
+            >
+              Change Payment
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );
