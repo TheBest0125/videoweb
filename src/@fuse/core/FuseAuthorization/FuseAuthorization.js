@@ -51,7 +51,7 @@ class FuseAuthorization extends Component {
   redirectRoute() {
     const { location, userRole } = this.props;
     const { pathname } = location;
-    const redirectUrl = loginRedirectUrl || this.defaultLoginRedirectUrl;
+    let redirectUrl = loginRedirectUrl || this.defaultLoginRedirectUrl;
 
     /*
         User is guest
@@ -66,6 +66,8 @@ class FuseAuthorization extends Component {
         User must be on unAuthorized page or just logged in
         Redirect to dashboard or loginRedirectUrl
         */
+      if (userRole === "user") redirectUrl = "/user/profile";
+      if (userRole === "admin") redirectUrl = "/admin/users";
       setTimeout(() => history.push(redirectUrl), 0);
       loginRedirectUrl = this.defaultLoginRedirectUrl;
     }

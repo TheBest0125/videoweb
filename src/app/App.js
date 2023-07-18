@@ -11,11 +11,12 @@ import { selectCurrentLanguageDirection } from "app/store/i18nSlice";
 import { selectUser } from "app/store/userSlice";
 import themeLayouts from "app/theme-layouts/themeLayouts";
 import { selectMainTheme } from "app/store/fuse/settingsSlice";
-import FuseAuthorization from "@fuse/core/FuseAuthorization";
 import settingsConfig from "app/configs/settingsConfig";
 import axios from "axios";
 import withAppProviders from "./withAppProviders";
 import { AuthProvider } from "./auth/AuthContext";
+import FuseAuthorization from "@fuse/core/FuseAuthorization/FuseAuthorization";
+import history from "@history";
 
 /**
  * Axios HTTP Request defaults
@@ -24,6 +25,12 @@ axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 axios.defaults.headers.common["Content-Type"] =
   "application/x-www-form-urlencoded";
+
+if (module?.hot?.status() === "apply") {
+  const { pathname } = history.location;
+  history.push("/loading");
+  history.push({ pathname });
+}
 
 const emotionCacheOptions = {
   rtl: {

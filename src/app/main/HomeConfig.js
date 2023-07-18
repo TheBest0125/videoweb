@@ -26,7 +26,7 @@ const HomeConfig = {
   auth: authRoles.onlyGuest,
   routes: [
     {
-      path: "home",
+      path: "/",
       element: <Home />,
     },
   ],

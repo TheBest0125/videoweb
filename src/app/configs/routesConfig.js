@@ -24,23 +24,22 @@ const routeConfigs = [
 ];
 
 const routes = [
-  ...FuseUtils.generateRoutesFromConfigs(
-    routeConfigs,
-    settingsConfig.defaultAuth
-  ),
-  {
-    path: "/",
-    element: <Navigate to="/dashboard" />,
-    auth: settingsConfig.defaultAuth,
-  },
+  ...FuseUtils.generateRoutesFromConfigs(routeConfigs, authRoles.admin),
+  // {
+  //   path: "/",
+  //   element: <Navigate to="/home" />,
+  //   auth: null,
+  // },
+
   {
     path: "loading",
     element: <FuseLoading />,
+    auth: null,
   },
-  // {
-  //   path: "*",
-  //   element: <Navigate to="404" />,
-  // },
+  {
+    path: "*",
+    element: <Navigate to="404" />,
+  },
 ];
 
 export default routes;

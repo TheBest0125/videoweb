@@ -23,6 +23,7 @@ const Error404PageConfig = {
       },
     },
   },
+  auth: null,
   routes: [
     {
       path: "404",

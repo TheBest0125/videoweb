@@ -17,7 +17,7 @@ const ProductsConfig = {
           display: true,
         },
         footer: {
-          display: false,
+          display: true,
         },
         leftSidePanel: {
           display: false,
@@ -28,7 +28,7 @@ const ProductsConfig = {
       },
     },
   },
-  auth: authRoles.onlyGuest,
+  auth: null,
   routes: [
     {
       path: "/productsByCategory/:categoryId",

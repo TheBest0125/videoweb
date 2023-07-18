@@ -32,16 +32,20 @@ export default function MenuPopupState() {
               </FuseSvgIcon>
             </Button>
             <Menu {...bindMenu(popupState)}>
-              {categories.map((category) => (
-                <MenuItem
-                  key={category.id}
-                  to={`/productsByCategory/${category.id}`}
-                  onClick={popupState.close}
-                  component={Link}
-                >
-                  {category.name}
-                </MenuItem>
-              ))}
+              {categories.length === 0 ? (
+                <MenuItem onClick={popupState.close}>No Categories...</MenuItem>
+              ) : (
+                categories?.map((category) => (
+                  <MenuItem
+                    key={category.id}
+                    to={`/productsByCategory/${category.id}`}
+                    onClick={popupState.close}
+                    component={Link}
+                  >
+                    {category.name}
+                  </MenuItem>
+                ))
+              )}
             </Menu>
           </Fragment>
         )}

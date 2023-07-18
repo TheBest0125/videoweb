@@ -24,7 +24,7 @@ const UserConfig = {
       },
     },
   },
-  auth: authRoles.admin,
+  auth: authRoles.user,
   routes: [
     {
       path: "/user/add_product",
