@@ -17,7 +17,7 @@ import AdsBanner from "../shared-components/AdsBanner";
 import { SiteInfoContext } from "src/app/App";
 import { useAuth } from "src/app/auth/AuthContext";
 
-const Root = styled("div")(({ theme, config, background }) => ({
+const Root = styled("div")(({ theme, config }) => ({
   ...(config.mode === "boxed" && {
     clipPath: "inset(0)",
     maxWidth: `${config.containerWidth}px`,
@@ -32,22 +32,15 @@ const Root = styled("div")(({ theme, config, background }) => ({
       margin: "0 auto",
     },
   }),
-  backgroundImage: `url(${process.env.REACT_APP_SERVER_URL}/uploads/${background})`,
 }));
 
 function Layout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
   const appContext = useContext(AppContext);
   const { siteInfo } = useContext(SiteInfoContext);
-  const { isAuthenticated } = useAuth();
   const { routes } = appContext;
   return (
-    <Root
-      id="fuse-layout"
-      config={config}
-      background={!isAuthenticated && siteInfo?.middleLogo}
-      className="bg-cover w-full flex"
-    >
+    <Root id="fuse-layout" config={config} className="bg-cover w-full flex">
       {config.leftSidePanel.display && <LeftSideLayout1 />}
 
       <div className="flex flex-auto min-w-0">

@@ -36,7 +36,7 @@ const schema = yup.object().shape({
 const defaultValues = {
   email: "",
   password: "",
-  remember: true,
+  remember: false,
 };
 
 function SignInPage() {
@@ -53,7 +53,14 @@ function SignInPage() {
     if (storedToken) {
       const decoded = jwtDecode(storedToken);
       const { email, password } = decoded;
-      onSubmit({ email, password, remember: true });
+      setValue("email", email, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      setValue("password", password, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
     }
   }, []);
 
