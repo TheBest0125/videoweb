@@ -1,4 +1,4 @@
-import { Button, Switch, TextField } from "@mui/material";
+import { Button, Switch, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import UploadIcon from "@mui/icons-material/Upload";
@@ -15,6 +15,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { setUser } from "app/store/userSlice";
 import { showMessage } from "app/store/fuse/messageSlice";
+import FusePageSimple from "@fuse/core/FusePageSimple/FusePageSimple";
+import InputLabel from "@mui/material/InputLabel";
 
 const schema = yup.object().shape({
   name: yup.string().required("You must enter a video name."),
@@ -111,118 +113,140 @@ export default function AddProduct() {
     setIsPeakVideo(!isPeakVideo);
   };
   return (
-    <div className="container">
-      <h1 className="mt-32 flex justify-center">Site Information</h1>
-      <form
-        className="w-1/2"
-        enctype="multipart/form-data"
-        onSubmit={handleSubmit((data) => upload(data))}
-      >
-        <div className="mt-48 mb-16">
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <>
-                <TextField
-                  {...field}
-                  autoFocus
-                  type="name"
-                  error={!!errors.name}
-                  helperText={errors?.name?.message}
-                  label="Video name"
-                  variant="outlined"
-                  fullWidth
-                />
-              </>
-            )}
-          />
+    <FusePageSimple
+      header={
+        <div className="mt-20 flex justify-center items-center text-[40px]">
+          Add Product
         </div>
-        <div className="mt-48 mb-16">
-          <FormControl error={!!errors.thumbnail} fullWidth>
-            <FormLabel className="font-medium text-14" component="legend">
-              Video thumbnail
-            </FormLabel>
-            <input {...register("thumbnail")} type="file" accept="image/*" />
-
-            <FormHelperText>{errors?.thumbnail?.message}</FormHelperText>
-          </FormControl>
-        </div>
-        <div className="mt-48 mb-16">
-          <FormControl error={!!errors.video} fullWidth>
-            <FormLabel className="font-medium text-14" component="legend">
-              Video
-            </FormLabel>
-            <input {...register("video")} type="file" accept="video/*" />
-
-            <FormHelperText>{errors?.video?.message}</FormHelperText>
-          </FormControl>
-        </div>
-        <div className="mt-48 mb-16"></div>
-
-        <div className="mt-48 mb-16">
-          <FormControl
-            disabled={isPeakVideo}
-            error={!!errors.category}
-            required
-            fullWidth
+      }
+      content={
+        <div className="p-20 w-full">
+          <form
+            enctype="multipart/form-data"
+            onSubmit={handleSubmit((data) => upload(data))}
           >
-            <FormLabel className="font-medium text-14" component="legend">
-              Category
-            </FormLabel>
-            <Select
-              label="Category"
-              variant="outlined"
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              {categories?.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <div className="mt-12">
-            <span className="font-medium text-14">Peak Video:</span>
-            <Switch onChange={handlePeakVideoChange} checked={isPeakVideo} />
-          </div>
-        </div>
-        <div className="mt-48 mb-16">
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => (
-              <>
-                <TextField
-                  {...field}
-                  error={!!errors.description}
-                  helperText={errors?.description?.message}
-                  label="Description"
-                  variant="outlined"
-                  multiline
-                  rows={5}
-                  fullWidth
+            <div className="mt-48 mb-16">
+              <Typography className="font-medium text-20 mb-6">
+                Video Name
+              </Typography>
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <TextField
+                      {...field}
+                      autoFocus
+                      type="name"
+                      error={!!errors.name}
+                      helperText={errors?.name?.message}
+                      label="Video name"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  </>
+                )}
+              />
+            </div>
+            <div className="mt-48 mb-16">
+              <Typography className="font-medium text-20 mb-6">
+                Video thumbnail
+              </Typography>
+              <FormControl error={!!errors.thumbnail} fullWidth>
+                <input
+                  {...register("thumbnail")}
+                  type="file"
+                  accept="image/*"
                 />
-              </>
-            )}
-          />
+
+                <FormHelperText>{errors?.thumbnail?.message}</FormHelperText>
+              </FormControl>
+            </div>
+            <div className="mt-48 mb-16">
+              <Typography className="font-medium text-20 mb-6">
+                Video
+              </Typography>
+              <FormControl error={!!errors.video} fullWidth>
+                <input {...register("video")} type="file" accept="video/*" />
+
+                <FormHelperText>{errors?.video?.message}</FormHelperText>
+              </FormControl>
+            </div>
+            <div className="mt-48 mb-16"></div>
+
+            <div className="mt-48 mb-16">
+              <Typography className="font-medium text-20 mb-6">
+                Category
+              </Typography>
+              <FormControl
+                disabled={isPeakVideo}
+                error={!!errors.category}
+                required
+                fullWidth
+              >
+                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  label="Category"
+                  variant="outlined"
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  {categories?.map((category) => (
+                    <MenuItem key={category.id} value={category.id}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <div className="mt-24">
+                <span className="font-medium text-20">Peak Video:</span>
+                <Switch
+                  onChange={handlePeakVideoChange}
+                  checked={isPeakVideo}
+                />
+              </div>
+            </div>
+            <div className="mt-48 mb-16">
+              <Typography className="font-medium text-20 mb-6">
+                Description
+              </Typography>
+              <Controller
+                name="description"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <TextField
+                      {...field}
+                      error={!!errors.description}
+                      helperText={errors?.description?.message}
+                      label="Description"
+                      variant="outlined"
+                      multiline
+                      rows={5}
+                      fullWidth
+                    />
+                  </>
+                )}
+              />
+            </div>
+            <Button
+              className="my-32"
+              color="secondary"
+              variant="outlined"
+              type="submit"
+              disabled={_.isEmpty(dirtyFields) || !isValid}
+              startIcon={<UploadIcon />}
+            >
+              {uploading ? (
+                <CircularProgress className="p-4" color="secondary" />
+              ) : (
+                "Upload"
+              )}
+            </Button>
+          </form>
         </div>
-        <Button
-          className="my-32"
-          color="secondary"
-          variant="outlined"
-          type="submit"
-          disabled={_.isEmpty(dirtyFields) || !isValid}
-          startIcon={<UploadIcon />}
-        >
-          {uploading ? (
-            <CircularProgress className="p-4" color="secondary" />
-          ) : (
-            "Upload"
-          )}
-        </Button>
-      </form>
-    </div>
+      }
+    ></FusePageSimple>
   );
 }

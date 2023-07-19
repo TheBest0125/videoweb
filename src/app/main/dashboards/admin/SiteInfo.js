@@ -11,6 +11,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import axios from "axios";
 import { SiteInfoContext } from "src/app/App";
 import clsx from "clsx";
+import FusePageSimple from "@fuse/core/FusePageSimple/FusePageSimple";
 
 export default function SiteInfo() {
   const { updateSiteInfo, siteInfo } = useContext(SiteInfoContext);
@@ -101,121 +102,125 @@ export default function SiteInfo() {
     }
   };
   return (
-    <div className="container">
-      <h1 className="mt-32 flex justify-center">Site Information</h1>
-      <div className="w-1/2">
-        <div className="mt-48 mb-16 flex">
-          <form onSubmit={handleChangeTopLeftLogo}>
-            <Typography className="mb-24 font-medium text-14">
-              Top Left Logo:
-            </Typography>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setTopLeftLogo(e.target.files[0])}
-              required
-            />
-            <Button
-              color="secondary"
-              variant="outlined"
-              type="submit"
-              startIcon={<UploadIcon />}
-            >
-              {tlLogoUploading ? (
-                <CircularProgress className="p-4" color="secondary" />
-              ) : (
-                "Upload"
-              )}
-            </Button>
-          </form>
+    <FusePageSimple
+      header={
+        <div className="mt-20 flex justify-center items-center text-[40px]">
+          Site Information
+        </div>
+      }
+      content={
+        <div className="p-20 w-full">
+          <div className="mt-48 mb-16 flex">
+            <form onSubmit={handleChangeTopLeftLogo}>
+              <Typography className="mb-24 font-medium text-24">
+                Top Left Logo:
+              </Typography>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setTopLeftLogo(e.target.files[0])}
+                required
+              />
+              <Button
+                color="secondary"
+                variant="outlined"
+                type="submit"
+                startIcon={<UploadIcon />}
+              >
+                {tlLogoUploading ? (
+                  <CircularProgress className="p-4" color="secondary" />
+                ) : (
+                  "Upload"
+                )}
+              </Button>
+            </form>
+          </div>
           <img
             className="w-40 h-40"
             src={`${process.env.REACT_APP_SERVER_URL}/uploads/${siteInfo.topLeftLogo}`}
             alt="logo"
           />
-        </div>
-        <div className="mt-48 mb-16 flex">
-          <form onSubmit={handleChangeMiddleLogo}>
-            <Typography className="mb-24 font-medium text-14">
-              Middle Logo:
-            </Typography>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setMiddleLogo(e.target.files[0])}
-              required
-            />
-            <Button
-              color="secondary"
-              variant="outlined"
-              type="submit"
-              startIcon={<UploadIcon />}
-            >
-              {mlLogoUploading ? (
-                <CircularProgress className="p-4" color="secondary" />
-              ) : (
-                "Upload"
-              )}
-            </Button>
-          </form>
+          <div className="mt-48 mb-16 flex">
+            <form onSubmit={handleChangeMiddleLogo}>
+              <Typography className="mb-24 font-medium text-24">
+                Middle Logo:
+              </Typography>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setMiddleLogo(e.target.files[0])}
+                required
+              />
+              <Button
+                color="secondary"
+                variant="outlined"
+                type="submit"
+                startIcon={<UploadIcon />}
+              >
+                {mlLogoUploading ? (
+                  <CircularProgress className="p-4" color="secondary" />
+                ) : (
+                  "Upload"
+                )}
+              </Button>
+            </form>
+          </div>
           <img
             className="w-256 h-128 ml-60"
             src={`${process.env.REACT_APP_SERVER_URL}/uploads/${siteInfo.middleLogo}`}
             alt="logo"
           />
-        </div>
-        <div className="mt-48 mb-16">
-          <form onSubmit={handleChangeContact}>
-            <Typography className="mb-24 font-medium text-14">
-              Contact:
-            </Typography>
-            <TextField
-              label="Contact"
-              variant="outlined"
-              required
-              fullWidth
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
-            />
-            <Button
-              className="mt-12"
-              color="secondary"
-              variant="outlined"
-              type="submit"
-              startIcon={<SaveIcon />}
-            >
-              Change
-            </Button>
-          </form>
-        </div>
-        <div className="mt-48 mb-16">
-          <form onSubmit={handleChangeCompany}>
-            <Typography className="mb-24 font-medium text-14">
-              Company:
-            </Typography>
-            <TextField
-              label="Company"
-              variant="outlined"
-              required
-              value={company}
-              fullWidth
-              onChange={(e) => setCompany(e.target.value)}
-            />
-            <Button
-              className="mt-12"
-              color="secondary"
-              variant="outlined"
-              type="submit"
-              startIcon={<SaveIcon />}
-            >
-              Change
-            </Button>
-          </form>
-        </div>
-        <div className="mt-48 mb-16 flex">
-          <div>
+          <div className="mt-48 mb-16">
+            <form onSubmit={handleChangeContact}>
+              <Typography className="mb-24 font-medium text-24">
+                Contact:
+              </Typography>
+              <TextField
+                label="Contact"
+                variant="outlined"
+                required
+                fullWidth
+                value={contact}
+                onChange={(e) => setContact(e.target.value)}
+              />
+              <Button
+                className="mt-12"
+                color="secondary"
+                variant="outlined"
+                type="submit"
+                startIcon={<SaveIcon />}
+              >
+                Change
+              </Button>
+            </form>
+          </div>
+          <div className="mt-48 mb-16">
+            <form onSubmit={handleChangeCompany}>
+              <Typography className="mb-24 font-medium text-24">
+                Company:
+              </Typography>
+              <TextField
+                label="Company"
+                variant="outlined"
+                required
+                value={company}
+                fullWidth
+                onChange={(e) => setCompany(e.target.value)}
+              />
+              <Button
+                className="mt-12"
+                color="secondary"
+                variant="outlined"
+                type="submit"
+                startIcon={<SaveIcon />}
+              >
+                Change
+              </Button>
+            </form>
+          </div>
+          <div className="mt-48 mb-16 flex">
             <form onSubmit={handleChangeBannerLogo}>
-              <Typography className="mb-24 font-medium text-14">
+              <Typography className="mb-24 font-medium text-24">
                 Ads Banner:
               </Typography>
               <input
@@ -238,57 +243,58 @@ export default function SiteInfo() {
               </Button>
             </form>
           </div>
-          <div className="ml-20">
-            <Typography
-              className={clsx(
-                "mb-24 font-medium text-14 ",
-                bannerEnable ? "text-green" : "text-red"
-              )}
-            >
-              {bannerEnable ? "Locked" : "Unlocked"}
-            </Typography>
-            <Switch
-              checked={bannerEnable}
-              onChange={handleChangeBannerEnable}
-            />
+          <div className="mb-16">
+            <div className="flex items-center">
+              <Typography
+                className={clsx(
+                  "font-medium text-20 ",
+                  bannerEnable ? "text-green" : "text-red"
+                )}
+              >
+                {bannerEnable ? "Locked" : "Unlocked"}
+              </Typography>
+              <Switch
+                checked={bannerEnable}
+                onChange={handleChangeBannerEnable}
+              />
+            </div>
+            {bannerEnable && (
+              <img
+                className="w-256 h-128 ml-60 mt-10"
+                src={`${process.env.REACT_APP_SERVER_URL}/uploads/${siteInfo.bannerLogo}`}
+                alt="logo"
+              />
+            )}
           </div>
-          {bannerEnable && (
-            <img
-              className="w-256 h-128 ml-40"
-              src={`${process.env.REACT_APP_SERVER_URL}/uploads/${siteInfo.bannerLogo}`}
-              alt="logo"
-            />
-          )}
+          <div className="mt-48 mb-16">
+            <form onSubmit={handleChangeLogoText}>
+              <Typography className="mb-24 font-medium text-24">
+                Logo Text:
+              </Typography>
+              <TextField
+                label="Logo Text"
+                variant="outlined"
+                required
+                value={logoText}
+                inputProps={{ minLength: 10 }}
+                onChange={(e) => setLogoText(e.target.value)}
+                multiline
+                rows={3}
+                fullWidth
+              />
+              <Button
+                className="mt-12"
+                color="secondary"
+                variant="outlined"
+                type="submit"
+                startIcon={<SaveIcon />}
+              >
+                Change
+              </Button>
+            </form>
+          </div>
         </div>
-
-        <div className="mt-48 mb-16">
-          <form onSubmit={handleChangeLogoText}>
-            <Typography className="mb-24 font-medium text-14">
-              Logo Text:
-            </Typography>
-            <TextField
-              label="Logo Text"
-              variant="outlined"
-              required
-              value={logoText}
-              inputProps={{ minLength: 10 }}
-              onChange={(e) => setLogoText(e.target.value)}
-              multiline
-              rows={3}
-              fullWidth
-            />
-            <Button
-              className="mt-12"
-              color="secondary"
-              variant="outlined"
-              type="submit"
-              startIcon={<SaveIcon />}
-            >
-              Change
-            </Button>
-          </form>
-        </div>
-      </div>
-    </div>
+      }
+    ></FusePageSimple>
   );
 }
