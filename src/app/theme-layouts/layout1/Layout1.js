@@ -14,8 +14,10 @@ import RightSideLayout1 from "./components/RightSideLayout1";
 import ToolbarLayout1 from "./components/ToolbarLayout1";
 import SettingsPanel from "../shared-components/SettingsPanel";
 import AdsBanner from "../shared-components/AdsBanner";
+import { SiteInfoContext } from "src/app/App";
+import { useAuth } from "src/app/auth/AuthContext";
 
-const Root = styled("div")(({ theme, config }) => ({
+const Root = styled("div")(({ theme, config, background }) => ({
   ...(config.mode === "boxed" && {
     clipPath: "inset(0)",
     maxWidth: `${config.containerWidth}px`,
@@ -30,16 +32,22 @@ const Root = styled("div")(({ theme, config }) => ({
       margin: "0 auto",
     },
   }),
-  // backgroundImage: "url('/assets/images/backgrounds/1.jpg')"
+  backgroundImage: `url(${process.env.REACT_APP_SERVER_URL}/uploads/${background})`,
 }));
 
 function Layout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
   const appContext = useContext(AppContext);
+  const { siteInfo } = useContext(SiteInfoContext);
+  const { isAuthenticated } = useAuth();
   const { routes } = appContext;
-
   return (
-    <Root id="fuse-layout" config={config} className="bg-cover w-full flex">
+    <Root
+      id="fuse-layout"
+      config={config}
+      background={!isAuthenticated && siteInfo?.middleLogo}
+      className="bg-cover w-full flex"
+    >
       {config.leftSidePanel.display && <LeftSideLayout1 />}
 
       <div className="flex flex-auto min-w-0">
@@ -69,7 +77,7 @@ function Layout1(props) {
             {props.children}
           </div>
 
-          {config.banner.display && <AdsBanner />}
+          {config.banner.display && siteInfo.bannerEnable && <AdsBanner />}
           {config.footer.display && (
             <FooterLayout1
               className={config.footer.style === "fixed" && "sticky bottom-0"}

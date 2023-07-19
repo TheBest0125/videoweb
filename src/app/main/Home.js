@@ -1,51 +1,60 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, useForm } from 'react-hook-form';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
-import * as yup from 'yup';
-import _ from '@lodash';
-import Paper from '@mui/material/Paper';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import FormHelperText from '@mui/material/FormHelperText';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { Link } from "react-router-dom";
+import * as yup from "yup";
+import _ from "@lodash";
+import Paper from "@mui/material/Paper";
+import AvatarGroup from "@mui/material/AvatarGroup";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import FormHelperText from "@mui/material/FormHelperText";
+import { useContext } from "react";
+import { SiteInfoContext } from "../App";
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  name: yup.string().required('You must enter your name'),
-  email: yup.string().email('You must enter a valid email').required('You must enter a email'),
+  name: yup.string().required("You must enter your name"),
+  email: yup
+    .string()
+    .email("You must enter a valid email")
+    .required("You must enter a email"),
   password: yup
     .string()
-    .required('Please enter your password.')
-    .min(8, 'Password is too short - should be 8 chars minimum.'),
-  passwordConfirm: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
-  acceptTermsConditions: yup.boolean().oneOf([true], 'The terms and conditions must be accepted.'),
+    .required("Please enter your password.")
+    .min(8, "Password is too short - should be 8 chars minimum."),
+  passwordConfirm: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+  acceptTermsConditions: yup
+    .boolean()
+    .oneOf([true], "The terms and conditions must be accepted."),
 });
 
 const defaultValues = {
-  name: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
+  name: "",
+  email: "",
+  password: "",
+  passwordConfirm: "",
   acceptTermsConditions: false,
 };
 
 function Home() {
   const { control, formState, handleSubmit, reset } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues,
     resolver: yupResolver(schema),
   });
 
   const { isValid, dirtyFields, errors } = formState;
-
+  const { siteInfo } = useContext(SiteInfoContext);
   function onSubmit() {
     reset(defaultValues);
   }
@@ -55,7 +64,7 @@ function Home() {
       <Paper className="flex w-full sm:w-auto min-h-full sm:min-h-auto md:w-full md:max-w-6xl rounded-0 sm:rounded-2xl sm:shadow overflow-hidden">
         <Box
           className="relative hidden md:flex flex-auto items-center justify-center h-full p-64 lg:px-112 overflow-hidden"
-          sx={{ backgroundColor: 'primary.main' }}
+          sx={{ backgroundColor: "primary.main" }}
         >
           <svg
             className="absolute inset-0 pointer-events-none"
@@ -67,7 +76,7 @@ function Home() {
           >
             <Box
               component="g"
-              sx={{ color: 'primary.light' }}
+              sx={{ color: "primary.light" }}
               className="opacity-20"
               fill="none"
               stroke="currentColor"
@@ -80,7 +89,7 @@ function Home() {
           <Box
             component="svg"
             className="absolute -top-64 -right-64 opacity-20"
-            sx={{ color: 'primary.light' }}
+            sx={{ color: "primary.light" }}
             viewBox="0 0 220 192"
             width="220px"
             height="192px"
@@ -98,12 +107,16 @@ function Home() {
                 <rect x="0" y="0" width="4" height="4" fill="currentColor" />
               </pattern>
             </defs>
-            <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" />
+            <rect
+              width="220"
+              height="192"
+              fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"
+            />
           </Box>
 
           <div className="z-10 relative w-full max-w-2xl">
             <div className="text-7xl font-bold leading-none text-gray-100">
-              <div>100 videos for 5$!</div>
+              <div>{siteInfo?.logoText}</div>
             </div>
             <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
               You can see any videos on our website for free.
@@ -200,12 +213,17 @@ function Home() {
                 name="acceptTermsConditions"
                 control={control}
                 render={({ field }) => (
-                  <FormControl className="items-center" error={!!errors.acceptTermsConditions}>
+                  <FormControl
+                    className="items-center"
+                    error={!!errors.acceptTermsConditions}
+                  >
                     <FormControlLabel
                       label="I agree to the Terms of Service and Privacy Policy"
                       control={<Checkbox size="small" {...field} />}
                     />
-                    <FormHelperText>{errors?.acceptTermsConditions?.message}</FormHelperText>
+                    <FormHelperText>
+                      {errors?.acceptTermsConditions?.message}
+                    </FormHelperText>
                   </FormControl>
                 )}
               />

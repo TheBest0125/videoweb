@@ -53,7 +53,7 @@ function SignInPage() {
     if (storedToken) {
       const decoded = jwtDecode(storedToken);
       const { email, password } = decoded;
-      onSubmit({ email, password, remember: false });
+      onSubmit({ email, password, remember: true });
     }
   }, []);
 

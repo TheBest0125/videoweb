@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import axios from "axios";
+import FusePageSimple from "@fuse/core/FusePageSimple/FusePageSimple";
 
 const Example = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -155,84 +156,93 @@ const Example = () => {
     ],
     [getCommonEditTextFieldProps]
   );
-
   return (
-    <div className="container">
-      <div className="mt-[30px] w-[80%]">
-        <MaterialReactTable
-          displayColumnDefOptions={{
-            "mrt-row-actions": {
-              muiTableHeadCellProps: {
-                align: "center",
+    <FusePageSimple
+      header={
+        <div className="mt-20 flex justify-center items-center text-[40px]">
+          Categories
+        </div>
+      }
+      content={
+        <div className="p-20 w-full">
+          <MaterialReactTable
+            displayColumnDefOptions={{
+              "mrt-row-actions": {
+                muiTableHeadCellProps: {
+                  align: "center",
+                },
+                size: 120,
               },
-              size: 120,
-            },
-          }}
-          state={{
-            columnFilters,
-            globalFilter,
-            isLoading,
-            pagination,
-            showAlertBanner: isError,
-            showProgressBars: isRefetching,
-            sorting,
-            showColumnFilters: true,
-          }}
-          manualFiltering
-          manualPagination
-          manualSorting
-          onColumnFiltersChange={setColumnFilters}
-          onGlobalFilterChange={setGlobalFilter}
-          onPaginationChange={setPagination}
-          onSortingChange={setSorting}
-          rowCount={rowCount}
-          columns={columns}
-          rowNumberMode="static"
-          enableRowNumbers
-          data={data}
-          editingMode="modal" //default
-          enableColumnOrdering
-          enableGlobalFilter={false}
-          enableFullScreenToggle={false}
-          initialState={{ columnVisibility: { id: false } }}
-          enableEditing
-          onEditingRowSave={handleSaveRowEdits}
-          onEditingRowCancel={handleCancelRowEdits}
-          renderRowActions={({ row, table }) => (
-            <div className="flex justify-center">
-              <Tooltip arrow placement="left" title="Edit">
-                <IconButton
-                  color="success"
-                  onClick={() => table.setEditingRow(row)}
-                >
-                  <Edit />
-                </IconButton>
-              </Tooltip>
-              <Tooltip arrow placement="right" title="Delete">
-                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                  <Delete />
-                </IconButton>
-              </Tooltip>
-            </div>
-          )}
-          renderTopToolbarCustomActions={() => (
-            <Button
-              color="secondary"
-              onClick={() => setCreateModalOpen(true)}
-              variant="contained"
-            >
-              Add New Category
-            </Button>
-          )}
-        />
-        <CreateNewCategory
-          columns={columns}
-          open={createModalOpen}
-          onClose={() => setCreateModalOpen(false)}
-          onSubmit={handleCreateNewRow}
-        />
-      </div>
-    </div>
+            }}
+            state={{
+              columnFilters,
+              globalFilter,
+              isLoading,
+              pagination,
+              showAlertBanner: isError,
+              showProgressBars: isRefetching,
+              sorting,
+              showColumnFilters: true,
+            }}
+            manualFiltering
+            manualPagination
+            manualSorting
+            onColumnFiltersChange={setColumnFilters}
+            onGlobalFilterChange={setGlobalFilter}
+            onPaginationChange={setPagination}
+            onSortingChange={setSorting}
+            rowCount={rowCount}
+            columns={columns}
+            rowNumberMode="static"
+            enableRowNumbers
+            data={data}
+            editingMode="modal" //default
+            enableColumnOrdering
+            enableGlobalFilter={false}
+            enableFullScreenToggle={false}
+            initialState={{ columnVisibility: { id: false } }}
+            enableEditing
+            onEditingRowSave={handleSaveRowEdits}
+            onEditingRowCancel={handleCancelRowEdits}
+            renderRowActions={({ row, table }) => (
+              <div className="flex justify-center">
+                <Tooltip arrow placement="left" title="Edit">
+                  <IconButton
+                    color="success"
+                    onClick={() => table.setEditingRow(row)}
+                  >
+                    <Edit />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip arrow placement="right" title="Delete">
+                  <IconButton
+                    color="error"
+                    onClick={() => handleDeleteRow(row)}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            )}
+            renderTopToolbarCustomActions={() => (
+              <Button
+                color="secondary"
+                onClick={() => setCreateModalOpen(true)}
+                variant="contained"
+              >
+                Add New Category
+              </Button>
+            )}
+          />
+          <CreateNewCategory
+            columns={columns}
+            open={createModalOpen}
+            onClose={() => setCreateModalOpen(false)}
+            onSubmit={handleCreateNewRow}
+          />
+        </div>
+      }
+    ></FusePageSimple>
   );
 };
 

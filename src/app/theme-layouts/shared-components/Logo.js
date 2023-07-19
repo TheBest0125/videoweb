@@ -1,5 +1,7 @@
 import { styled } from "@mui/material/styles";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { SiteInfoContext } from "src/app/App";
 
 const Root = styled("div")(({ theme }) => ({
   "& > .logo-icon": {
@@ -15,16 +17,18 @@ const Root = styled("div")(({ theme }) => ({
     }),
   },
 }));
-
 function Logo() {
+  const { siteInfo } = useContext(SiteInfoContext);
   return (
     <Root className="flex items-center">
       <Link to="/" role="button">
-        <img
-          className="logo-icon w-32 h-32"
-          src="assets/images/logo/logo.svg"
-          alt="logo"
-        />
+        {siteInfo && (
+          <img
+            src={`${process.env.REACT_APP_SERVER_URL}/uploads/${siteInfo.topLeftLogo}`}
+            className="logo-icon w-32 h-32"
+            alt="logo"
+          />
+        )}
       </Link>
     </Root>
   );

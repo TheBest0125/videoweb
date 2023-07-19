@@ -31,7 +31,7 @@ export default function ProductsByCategory() {
   return (
     <div className="container">
       <h1 className="flex justify-center my-32 text-bold">{categoryName}</h1>
-      <div className="mx-96 mb-32">
+      <div className="mb-32">
         <div className="grid lg:grid-cols-3 md:grid-cols-2">
           {data.map((item) => (
             <div key={item.id}>

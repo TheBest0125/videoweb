@@ -1,14 +1,15 @@
 import AppBar from "@mui/material/AppBar";
 import { ThemeProvider } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { useSelector } from "react-redux";
 import { selectFooterTheme } from "app/store/fuse/settingsSlice";
 import clsx from "clsx";
+import { SiteInfoContext } from "src/app/App";
 
 function FooterLayout1(props) {
   const footerTheme = useSelector(selectFooterTheme);
-
+  const { siteInfo } = useContext(SiteInfoContext);
   return (
     <ThemeProvider theme={footerTheme}>
       <AppBar
@@ -58,7 +59,7 @@ function FooterLayout1(props) {
                       <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
                       <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
                     </svg>
-                    info@example.com
+                    {siteInfo?.contact}
                   </p>
                   <p className="mb-4 flex items-center justify-center md:justify-start">
                     <svg
@@ -99,7 +100,7 @@ function FooterLayout1(props) {
                 className="font-semibold text-neutral-600 dark:text-neutral-400 ml-40"
                 href="#"
               >
-                Katanyu Paothawee
+                {siteInfo?.company}
               </a>
             </div>
           </div>

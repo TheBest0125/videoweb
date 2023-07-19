@@ -3,6 +3,7 @@ import { MaterialReactTable } from "material-react-table";
 import { IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import axios from "axios";
+import FusePageSimple from "@fuse/core/FusePageSimple/FusePageSimple";
 
 const Users = () => {
   //data and fetching state
@@ -117,55 +118,68 @@ const Users = () => {
   ]);
 
   return (
-    <div className="container">
-      <div className="mt-[30px] w-[80%]">
-        <MaterialReactTable
-          displayColumnDefOptions={{
-            "mrt-row-actions": {
-              muiTableHeadCellProps: {
-                align: "center",
+    <FusePageSimple
+      header={
+        <div className="mt-20 flex justify-center items-center text-[40px]">
+          Users
+        </div>
+      }
+      content={
+        <div className="p-20 w-full">
+          <MaterialReactTable
+            displayColumnDefOptions={{
+              "mrt-row-actions": {
+                muiTableHeadCellProps: {
+                  align: "center",
+                },
+                size: 120,
               },
-              size: 120,
-            },
-          }}
-          state={{
-            columnFilters,
-            globalFilter,
-            isLoading,
-            pagination,
-            showAlertBanner: isError,
-            showProgressBars: isRefetching,
-            sorting,
-            showColumnFilters: true,
-          }}
-          initialState={{ density: "compact", columnVisibility: { id: false } }}
-          enableFullScreenToggle={false}
-          columns={columns}
-          data={data}
-          enableGlobalFilter={false}
-          enableColumnOrdering
-          enableEditing
-          enableRowNumbers
-          manualFiltering
-          manualPagination
-          manualSorting
-          onColumnFiltersChange={setColumnFilters}
-          onGlobalFilterChange={setGlobalFilter}
-          onPaginationChange={setPagination}
-          onSortingChange={setSorting}
-          rowCount={rowCount}
-          renderRowActions={({ row, table }) => (
-            <div className="flex justify-center">
-              <Tooltip arrow placement="right" title="Delete">
-                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                  <Delete />
-                </IconButton>
-              </Tooltip>
-            </div>
-          )}
-        />
-      </div>
-    </div>
+            }}
+            state={{
+              columnFilters,
+              globalFilter,
+              isLoading,
+              pagination,
+              showAlertBanner: isError,
+              showProgressBars: isRefetching,
+              sorting,
+              showColumnFilters: true,
+            }}
+            initialState={{
+              density: "compact",
+              columnVisibility: { id: false },
+            }}
+            enableFullScreenToggle={false}
+            columns={columns}
+            data={data}
+            enableGlobalFilter={false}
+            enableColumnOrdering
+            enableEditing
+            enableRowNumbers
+            manualFiltering
+            manualPagination
+            manualSorting
+            onColumnFiltersChange={setColumnFilters}
+            onGlobalFilterChange={setGlobalFilter}
+            onPaginationChange={setPagination}
+            onSortingChange={setSorting}
+            rowCount={rowCount}
+            renderRowActions={({ row, table }) => (
+              <div className="flex justify-center">
+                <Tooltip arrow placement="right" title="Delete">
+                  <IconButton
+                    color="error"
+                    onClick={() => handleDeleteRow(row)}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            )}
+          />
+        </div>
+      }
+    />
   );
 };
 
