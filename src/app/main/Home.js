@@ -16,6 +16,7 @@ import Box from "@mui/material/Box";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useContext } from "react";
 import { SiteInfoContext } from "../App";
+import jwtService from "../auth/services/jwtService";
 
 /**
  * Form Validation Schema
@@ -45,9 +46,8 @@ const defaultValues = {
   passwordConfirm: "",
   acceptTermsConditions: false,
 };
-
 function Home() {
-  const { control, formState, handleSubmit, reset } = useForm({
+  const { control, formState, handleSubmit, reset, setError } = useForm({
     mode: "onChange",
     defaultValues,
     resolver: yupResolver(schema),
@@ -55,8 +55,24 @@ function Home() {
 
   const { isValid, dirtyFields, errors } = formState;
   const { siteInfo } = useContext(SiteInfoContext);
-  function onSubmit() {
-    reset(defaultValues);
+  function onSubmit({ name, password, email }) {
+    jwtService
+      .createUser({
+        name,
+        password,
+        email,
+      })
+      .then((user) => {
+        // No need to do anything, registered user data will be set at app/auth/AuthContext
+      })
+      .catch((_errors) => {
+        _errors.forEach((error) => {
+          setError(error.type, {
+            type: "manual",
+            message: error.message,
+          });
+        });
+      });
   }
 
   return (

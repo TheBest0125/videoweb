@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDeepCompareEffect } from "@fuse/hooks";
 import axios from "axios";
+import FusePageSimple from "@fuse/core/FusePageSimple/FusePageSimple";
 
 export default function Product() {
   const [product, setProduct] = useState(null);
@@ -24,57 +25,66 @@ export default function Product() {
   useDeepCompareEffect(() => {
     getProduct();
   }, [routeParams]);
-  return (
-    <div className="container">
-      {product && (
-        <div className="mx-[60px]">
-          <div className="flex mt-12 h-128">
-            <div className="grow text-center">
-              <h1>{product.name}</h1>
-              <h3>{product.username}</h3>
-            </div>
 
-            <img
-              className="w-256 rounded-lg mb-20"
-              src={`${process.env.REACT_APP_SERVER_URL}/uploads/${product.imageURL}`}
-              alt=""
-            />
-          </div>
-          <div>
-            <div>
-              <video
-                className="shadow-lg w-full md:h-[650px] h-[480px]"
-                autoplay
-                loop
-                controls
-                muted
-              >
-                <source
-                  src={`${process.env.REACT_APP_SERVER_URL}/uploads/${product.videoURL}`}
-                  type="video/mp4"
-                />
-              </video>
+  return (
+    <FusePageSimple
+      header={
+        <div className="flex flex-col sm:flex-row my-20 h-150 items-center px-20 sm:px-60">
+          <div className="flex flex-col sm:flex-1">
+            <div className="font-bold text-[30px] text-center sm:text-left">
+              {product?.name}
             </div>
-            <div className="relative">
-              <Button
-                onClick={(e) => navigate(-1)}
-                className="absolute p-12 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white left-0 top-10"
-                role="button"
-              >
-                Back to Last Page
-              </Button>
-              {type === "category" && (
-                <button
-                  className="absolute p-12 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white right-0 top-10"
-                  onClick={handleNextRandomVideo}
-                >
-                  Next Random Video
-                </button>
-              )}
+            <div className="text-[26px] text-center sm:text-left font-bold">
+              {product?.username}
             </div>
           </div>
+          <img
+            className="w-full sm:w-[300px] rounded-lg h-[200px]"
+            src={`${process.env.REACT_APP_SERVER_URL}/uploads/${product?.imageURL}`}
+            alt=""
+          />
         </div>
-      )}
-    </div>
+      }
+      content={
+        <div className="px-20 w-full mb-32 sm:px-60">
+          {product && (
+            <>
+              <div>
+                <div className="aspect-w-16 aspect-h-9">
+                  <iframe
+                    className="sm:h-[500px] h-[300px]"
+                    src={`${process.env.REACT_APP_SERVER_URL}/uploads/${product.videoURL}`}
+                    width="100%"
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+                <div className="flex justify-center text-[20px] my-10">
+                  {product.description}
+                </div>
+                <div className="flex flex-col sm:flex-row justify-between">
+                  <Button
+                    onClick={(e) => navigate(-1)}
+                    className="p-12 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white mb-10"
+                    role="button"
+                  >
+                    Back to Last Page
+                  </Button>
+                  {type === "category" && (
+                    <button
+                      className="p-12 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white mb-10"
+                      onClick={handleNextRandomVideo}
+                    >
+                      Next Random Video
+                    </button>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      }
+    ></FusePageSimple>
   );
 }

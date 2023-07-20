@@ -143,11 +143,11 @@ const Users = () => {
               showAlertBanner: isError,
               showProgressBars: isRefetching,
               sorting,
-              showColumnFilters: true,
             }}
             initialState={{
               density: "compact",
               columnVisibility: { id: false },
+              showColumnFilters: true,
             }}
             enableFullScreenToggle={false}
             columns={columns}

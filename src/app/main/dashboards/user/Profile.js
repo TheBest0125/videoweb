@@ -63,7 +63,7 @@ export default function Profile() {
               Username:
             </Typography>
             <TextField
-              value={user.data.name}
+              value={user?.data.name}
               label="Username"
               variant="outlined"
               disabled
@@ -127,7 +127,7 @@ export default function Profile() {
               Product Number:
             </Typography>
             <TextField
-              value={user.data.productNumber}
+              value={user?.data.productNumber}
               label="Product Number"
               variant="outlined"
               disabled

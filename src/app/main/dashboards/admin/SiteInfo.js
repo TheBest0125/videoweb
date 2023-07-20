@@ -12,6 +12,8 @@ import axios from "axios";
 import { SiteInfoContext } from "src/app/App";
 import clsx from "clsx";
 import FusePageSimple from "@fuse/core/FusePageSimple/FusePageSimple";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 export default function SiteInfo() {
   const { updateSiteInfo, siteInfo } = useContext(SiteInfoContext);
@@ -26,7 +28,11 @@ export default function SiteInfo() {
   const [bannerEnable, setBannerEnable] = useState(siteInfo.bannerEnable);
   const [logoText, setLogoText] = useState();
   const [company, setCompany] = useState();
-  const [contact, setContact] = useState();
+  const [contact, setContact] = useState({
+    email: "",
+    phoneNumber: "",
+    fax: "",
+  });
   const handleChangeTopLeftLogo = async (e) => {
     e.preventDefault();
     setTlLogoUploading(true);
@@ -64,11 +70,15 @@ export default function SiteInfo() {
   };
   const handleChangeContact = async (e) => {
     e.preventDefault();
-    const res = await axios.post("api/site_info/changeContact", {
-      contact,
-    });
-    if (res.data.success) updateSiteInfo({ ...siteInfo, contact });
-    setContact("");
+    const res = await axios.post("api/site_info/changeContact", contact);
+    if (res.data.success)
+      updateSiteInfo({
+        ...siteInfo,
+        email: contact.email,
+        phoneNumber: contact.phoneNumber,
+        fax: contact.fax,
+      });
+    setContact({ email: "", phoneNumber: "", fax: "" });
   };
   const handleChangeLogoText = async (e) => {
     e.preventDefault();
@@ -122,6 +132,7 @@ export default function SiteInfo() {
                 required
               />
               <Button
+                className="my-10"
                 color="secondary"
                 variant="outlined"
                 type="submit"
@@ -152,6 +163,7 @@ export default function SiteInfo() {
                 required
               />
               <Button
+                className="my-10"
                 color="secondary"
                 variant="outlined"
                 type="submit"
@@ -175,14 +187,54 @@ export default function SiteInfo() {
               <Typography className="mb-24 font-medium text-24">
                 Contact:
               </Typography>
+              <Typography className="my-12 font-medium text-14">
+                Email:
+              </Typography>
               <TextField
-                label="Contact"
+                label="Email"
                 variant="outlined"
+                type="email"
                 required
                 fullWidth
-                value={contact}
-                onChange={(e) => setContact(e.target.value)}
+                value={contact.email}
+                onChange={(e) =>
+                  setContact({ ...contact, email: e.target.value })
+                }
               />
+              <div className="flex flex-col">
+                <div>
+                  <Typography className="my-12 font-medium text-14">
+                    Phone Number:
+                  </Typography>
+                  <PhoneInput
+                    country={"us"}
+                    inputProps={{
+                      name: "phone",
+                      required: true,
+                    }}
+                    value={contact.phoneNumber}
+                    onChange={(val, country, e, formattedVal) =>
+                      setContact({ ...contact, phoneNumber: formattedVal })
+                    }
+                  />
+                </div>
+                <div>
+                  <Typography className="my-12 font-medium text-14">
+                    Fax:
+                  </Typography>
+                  <PhoneInput
+                    country={"us"}
+                    inputProps={{
+                      name: "fax",
+                      required: true,
+                    }}
+                    value={contact.fax}
+                    onChange={(val, country, e, formattedVal) =>
+                      setContact({ ...contact, fax: formattedVal })
+                    }
+                  />
+                </div>
+              </div>
               <Button
                 className="mt-12"
                 color="secondary"
@@ -230,6 +282,7 @@ export default function SiteInfo() {
                 required
               />
               <Button
+                className="my-10"
                 color="secondary"
                 variant="outlined"
                 type="submit"
@@ -254,11 +307,11 @@ export default function SiteInfo() {
                 {bannerEnable ? "Locked" : "Unlocked"}
               </Typography>
               <Switch
-                checked={bannerEnable}
+                checked={bannerEnable ? true : false}
                 onChange={handleChangeBannerEnable}
               />
             </div>
-            {bannerEnable && (
+            {bannerEnable == 1 && (
               <img
                 className="w-256 h-128 ml-60 mt-10"
                 src={`${process.env.REACT_APP_SERVER_URL}/uploads/${siteInfo.bannerLogo}`}

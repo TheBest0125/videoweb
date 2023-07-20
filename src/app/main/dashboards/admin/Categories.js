@@ -182,7 +182,11 @@ const Example = () => {
               showAlertBanner: isError,
               showProgressBars: isRefetching,
               sorting,
+            }}
+            initialState={{
               showColumnFilters: true,
+              density: "compact",
+              columnVisibility: { id: false },
             }}
             manualFiltering
             manualPagination
@@ -200,7 +204,6 @@ const Example = () => {
             enableColumnOrdering
             enableGlobalFilter={false}
             enableFullScreenToggle={false}
-            initialState={{ columnVisibility: { id: false } }}
             enableEditing
             onEditingRowSave={handleSaveRowEdits}
             onEditingRowCancel={handleCancelRowEdits}

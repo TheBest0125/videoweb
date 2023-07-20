@@ -122,7 +122,7 @@ export default function AddProduct() {
       content={
         <div className="p-20 w-full">
           <form
-            enctype="multipart/form-data"
+            encType="multipart/form-data"
             onSubmit={handleSubmit((data) => upload(data))}
           >
             <div className="mt-48 mb-16">
