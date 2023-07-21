@@ -30,8 +30,8 @@ export default function Product() {
     <FusePageSimple
       header={
         <div className="flex flex-col sm:flex-row my-20 h-150 items-center px-20 sm:px-60">
-          <div className="flex flex-col sm:flex-1">
-            <div className="font-bold text-[30px] text-center sm:text-left">
+          <div className="flex flex-col flex-1">
+            <div className="font-bold text-[30px] text-center sm:text-left truncate w-200 md:w-[500px]">
               {product?.name}
             </div>
             <div className="text-[26px] text-center sm:text-left font-bold">
@@ -60,7 +60,7 @@ export default function Product() {
                     allowfullscreen
                   ></iframe>
                 </div>
-                <div className="flex justify-center text-[20px] my-10">
+                <div className="text-center text-[20px] my-10 truncate">
                   {product.description}
                 </div>
                 <div className="flex flex-col sm:flex-row justify-between">

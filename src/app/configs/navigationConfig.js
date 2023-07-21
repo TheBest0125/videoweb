@@ -22,12 +22,14 @@ const navigationConfig = [
         id: "admin_users",
         title: "Users",
         type: "item",
+        translate: "USERS",
         icon: "heroicons-outline:users",
         url: "/admin/users",
       },
       {
         id: "admin_categories",
         title: "Categories",
+        translate: "CATEGORIES",
         type: "item",
         icon: "material-outline:category",
         url: "/admin/categories",
@@ -35,6 +37,7 @@ const navigationConfig = [
       {
         id: "admin_site_info",
         title: "Site Information",
+        translate: "SITE_INFORMATION",
         type: "item",
         icon: "heroicons-outline:information-circle",
         url: "/admin/site_info",
@@ -53,12 +56,14 @@ const navigationConfig = [
       {
         id: "user_profile",
         title: "Profile",
+        translate: "USER_PROFILE",
         type: "item",
         icon: "material-outline:admin_panel_settings",
         url: "/user/profile",
       },
       {
         id: "user_add_product",
+        translate: "ADD_PRODUCT",
         title: "Add Product",
         type: "item",
         icon: "material-outline:add_a_photo",
