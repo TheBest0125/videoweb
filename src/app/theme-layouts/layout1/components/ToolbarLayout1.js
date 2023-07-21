@@ -71,14 +71,14 @@ function ToolbarLayout1(props) {
             </div>
           </div>
           <div className="flex flex-1">
-            <Hidden smDown>
+            {/* <Hidden smDown>
               <NavigationSearch className="mx-16 lg:mx-24" variant="basic" />
-            </Hidden>
+            </Hidden> */}
           </div>
           <div className="flex items-center px-8 h-full overflow-x-auto">
-            <Hidden smUp>
+            {/* <Hidden smUp>
               <NavigationSearch />
-            </Hidden>
+            </Hidden> */}
 
             <LanguageSwitcher />
 

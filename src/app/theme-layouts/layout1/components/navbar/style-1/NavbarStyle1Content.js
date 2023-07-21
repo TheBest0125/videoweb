@@ -1,11 +1,12 @@
 import FuseScrollbars from "@fuse/core/FuseScrollbars";
 import { styled } from "@mui/material/styles";
 import clsx from "clsx";
-import { memo } from "react";
+import { memo, useContext } from "react";
 import Logo from "../../../../shared-components/Logo";
 import NavbarToggleButton from "../../../../shared-components/NavbarToggleButton";
 import UserNavbarHeader from "../../../../shared-components/UserNavbarHeader";
 import Navigation from "../../../../shared-components/Navigation";
+import { SiteInfoContext } from "src/app/App";
 
 const Root = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
@@ -37,6 +38,7 @@ const StyledContent = styled(FuseScrollbars)(({ theme }) => ({
 }));
 
 function NavbarStyle1Content(props) {
+  const { siteInfo } = useContext(SiteInfoContext);
   return (
     <Root
       className={clsx(
@@ -59,7 +61,7 @@ function NavbarStyle1Content(props) {
         <div className="flex flex-0 items-center justify-center py-48 opacity-10">
           <img
             className="w-full max-w-64"
-            src="assets/images/logo/logo.svg"
+            src={`${process.env.REACT_APP_SERVER_URL}/uploads/${siteInfo?.topLeftLogo}`}
             alt="footer logo"
           />
         </div>

@@ -4,11 +4,22 @@ import { Link, useParams } from "react-router-dom";
 import { useDeepCompareEffect } from "@fuse/hooks";
 import axios from "axios";
 import FusePageSimple from "@fuse/core/FusePageSimple/FusePageSimple";
+import FuseSvgIcon from "@fuse/core/FuseSvgIcon";
+import { Box } from "@mui/system";
+import { motion } from "framer-motion";
+import Input from "@mui/material/Input";
+import { styled } from "@mui/material/styles";
 
+const Root = styled(FusePageSimple)(({ theme }) => ({
+  "& .FusePageSimple-header": {
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 export default function ProductsByUser() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(9);
+  const [searchText, setSearchText] = useState("");
   const [totalPage, setTotalPage] = useState(0);
 
   const routeParams = useParams();
@@ -22,24 +33,49 @@ export default function ProductsByUser() {
       userId,
       start: (page - 1) * perPage,
       limit: perPage,
+      searchText,
     });
     setData(res.data.data);
     setTotalPage(res.data.total);
   };
   useDeepCompareEffect(() => {
     fetchProducts();
-  }, [routeParams, page, perPage]);
+  }, [routeParams, page, perPage, searchText]);
 
   return (
-    <FusePageSimple
+    <Root
       header={
-        <div className="mt-20 font-bold flex justify-center items-center text-[40px]">
-          {username}
-        </div>
+        <>
+          <div className="mt-20 font-bold flex justify-center items-center text-[40px]">
+            {username}
+          </div>
+          <Box
+            component={motion.div}
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
+            className="flex flex-1 w-full sm:w-auto items-center px-16 mx-8 border-1 rounded-full my-[30px]"
+          >
+            <FuseSvgIcon color="action" size={20}>
+              heroicons-outline:search
+            </FuseSvgIcon>
+
+            <Input
+              placeholder={`Search ${username}'s videos by name.`}
+              className="flex flex-1 px-16"
+              disableUnderline
+              fullWidth
+              value={searchText}
+              inputProps={{
+                "aria-label": "Search",
+              }}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          </Box>
+        </>
       }
       content={
         <div className="p-20 w-full mb-32">
-          <div className="grid lg:grid-cols-3 md:grid-cols-2">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
             {data.map((item) => (
               <div key={item.id}>
                 <div className="block m-32 rounded-lg bg-white text-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
@@ -71,6 +107,6 @@ export default function ProductsByUser() {
           </div>
         </div>
       }
-    ></FusePageSimple>
+    ></Root>
   );
 }

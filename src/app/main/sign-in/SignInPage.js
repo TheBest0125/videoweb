@@ -70,7 +70,7 @@ function SignInPage() {
       .then((data) => {
         if (remember)
           localStorage.setItem("rememberMeToken", data.rememberMeToken);
-        else localStorage.removeItem("rememberMeToken");
+        // else localStorage.removeItem("rememberMeToken");
         // No need to do anything, user data will be set at app/auth/AuthContext
       })
       .catch((_errors) => {

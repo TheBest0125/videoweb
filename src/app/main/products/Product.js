@@ -55,9 +55,9 @@ export default function Product() {
                     className="sm:h-[500px] h-[300px]"
                     src={`${process.env.REACT_APP_SERVER_URL}/uploads/${product.videoURL}`}
                     width="100%"
-                    frameborder="0"
+                    frameBorder="0"
                     allow="autoplay; fullscreen; picture-in-picture"
-                    allowfullscreen
+                    allowFullScreen
                   ></iframe>
                 </div>
                 <div className="text-center text-[20px] my-10 truncate">
